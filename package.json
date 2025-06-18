@@ -20,9 +20,6 @@
     "test:client": "npm run test:run --workspace=client",
     "test:client:watch": "npm run test --workspace=client",
     "test:client:coverage": "npm run test:coverage --workspace=client",
-    "test:client:ui": "npm run test:ui --workspace=client",
-    "test:client:integration": "npm run test:integration --workspace=client",
-    "test:client:integration:watch": "npm run test:integration:watch --workspace=client",
     "clean": "npm run clean --workspaces --if-present",
     "install:all": "npm install && npm install --workspace=client && npm install --workspace=server"
   },
