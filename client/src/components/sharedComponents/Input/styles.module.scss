@@ -1,0 +1,33 @@
+.input-wrapper {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: inline-block;
+  min-width: 30rem;
+
+  &__field-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-tertiary);
+    font-size: 16px;
+  }
+
+  &__input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    font-size: 16px;
+    color: var(--color-text-primary);
+
+    &::placeholder {
+      color: var(--color-text-tertiary);
+    }
+  }
+}

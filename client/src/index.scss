@@ -1,0 +1,166 @@
+@use "sass:map";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Custom base styles
+@layer base {
+  :root {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+}
+
+// Theme variables
+$themes: (
+  light: (
+    color-bg-primary: #ffffff,
+    color-bg-secondary: #f8fafc,
+    color-bg-tertiary: #f1f5f9,
+    color-text-primary: #0f172a,
+    color-text-secondary: #475569,
+    color-text-tertiary: #64748b,
+    color-border: #e2e8f0,
+    color-border-hover: #cbd5e1,
+    color-accent: #3b82f6,
+    color-accent-hover: #2563eb,
+    color-success: #10b981,
+    color-error: #ef4444,
+    color-warning: #f59e0b,
+    shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05),
+    shadow-md: (0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)),
+    shadow-lg: (0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)),
+    color-primary: #0891b2,
+    color-primary-hover: #0e7490,
+    color-primary-light: #06b6d4,
+    color-primary-dark: #155e75,
+    color-bg-active: #ddf8fd,
+    color-text-active: #3d8d9b,
+  ),
+  dark: (
+    color-bg-primary: #0f172a,
+    color-bg-secondary: #1e293b,
+    color-bg-tertiary: #334155,
+    color-text-primary: #f8fafc,
+    color-text-secondary: #cbd5e1,
+    color-text-tertiary: #94a3b8,
+    color-border: #334155,
+    color-border-hover: #475569,
+    color-accent: #60a5fa,
+    color-accent-hover: #3b82f6,
+    color-success: #34d399,
+    color-error: #f87171,
+    color-warning: #fbbf24,
+    shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3),
+    shadow-md: (0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3)),
+    shadow-lg: (0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3)),
+    color-primary: #22d3ee,
+    color-primary-hover: #06b6d4,
+    color-primary-light: #67e8f9,
+    color-primary-dark: #0891b2,
+    color-bg-active: #ddf8fd,
+    color-text-active: #3d8d9b,
+  )
+);
+
+// Mixin to generate theme variables
+@mixin theme-variables($theme-name) {
+  @if map.has-key($themes, $theme-name) {
+    @each $key, $value in map.get($themes, $theme-name) {
+      --#{$key}: #{$value};
+    }
+  } @else {
+    @error "Theme '#{$theme-name}' not found in $themes map. Available themes: #{map.keys($themes)}";
+  }
+}
+
+// Generate theme variables for light and dark themes
+:root[data-theme="light"] {
+  @include theme-variables(light);
+}
+
+:root[data-theme="dark"] {
+  @include theme-variables(dark);
+}
+
+// Base styles using CSS variables
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  font-weight: 500;
+  text-decoration: inherit;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent-hover);
+  }
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  color: var(--color-text-primary);
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-border-hover);
+    background-color: var(--color-bg-tertiary);
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid var(--color-text-active);
+    outline-offset: 2px;
+  }
+}
+
+// Utility classes for theme-aware components
+.theme-card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-input {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent-hover);
+  }
+} 

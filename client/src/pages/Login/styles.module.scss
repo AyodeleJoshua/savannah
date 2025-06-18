@@ -1,0 +1,373 @@
+.login-container {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(to bottom right, #ecfeff, #dbeafe);
+	padding: 3rem 1rem;
+
+	@media (min-width: 640px) {
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+
+	@media (min-width: 1024px) {
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+
+	// Dark mode
+	@media (prefers-color-scheme: dark) {
+		background: linear-gradient(to bottom right, #0f172a, #1e293b);
+	}
+}
+
+.login-wrapper {
+	max-width: 28rem;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.login-header {
+	text-align: center;
+}
+
+.login-icon {
+	margin: 0 auto;
+	height: 3rem;
+	width: 3rem;
+	background: linear-gradient(to right, #06b6d4, #3b82f6);
+	border-radius: 0.75rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+	svg {
+		height: 2rem;
+		width: 2rem;
+		color: white;
+	}
+}
+
+.login-title {
+	margin-top: 1.5rem;
+	font-size: 1.875rem;
+	font-weight: 700;
+	color: #111827;
+
+	@media (prefers-color-scheme: dark) {
+		color: white;
+	}
+}
+
+.login-subtitle {
+	margin-top: 0.5rem;
+	font-size: 0.875rem;
+	color: #4b5563;
+
+	@media (prefers-color-scheme: dark) {
+		color: #9ca3af;
+	}
+}
+
+.login-form-container {
+	background: white;
+	padding: 2rem 1.5rem;
+	box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	border-radius: 0.75rem;
+	border: 1px solid #e5e7eb;
+
+	@media (prefers-color-scheme: dark) {
+		background: #1e293b;
+		border-color: #334155;
+	}
+}
+
+.login-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.form-group {
+	// Base styles for form groups
+}
+
+.form-label {
+	display: block;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: #374151;
+	margin-bottom: 0.5rem;
+
+	@media (prefers-color-scheme: dark) {
+		color: #d1d5db;
+	}
+}
+
+.input-wrapper {
+	position: relative;
+}
+
+.input-icon {
+	position: absolute;
+	inset: 0;
+	left: 0;
+	padding-left: 0.75rem;
+	display: flex;
+	align-items: center;
+	pointer-events: none;
+
+	svg {
+		height: 1.25rem;
+		width: 1.25rem;
+		color: #9ca3af;
+	}
+}
+
+.form-input {
+	appearance: none;
+	position: relative;
+	display: block;
+	width: 100%;
+	padding: 0.75rem;
+	padding-left: 2.5rem;
+	padding-right: 0.75rem;
+	border: 1px solid #d1d5db;
+	border-radius: 0.5rem;
+	background: white;
+	color: #111827;
+	font-size: 0.875rem;
+	transition: all 0.2s ease-in-out;
+
+	&::placeholder {
+		color: #6b7280;
+	}
+
+	&:focus {
+		outline: none;
+		ring: 2px;
+		ring-color: #06b6d4;
+		border-color: #06b6d4;
+		z-index: 10;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		border-color: #475569;
+		background: #334155;
+		color: white;
+
+		&::placeholder {
+			color: #9ca3af;
+		}
+	}
+
+	// Password input specific styles
+	&.password-input {
+		padding-right: 3rem;
+	}
+}
+
+.password-toggle {
+	position: absolute;
+	inset: 0;
+	right: 0;
+	padding-right: 0.75rem;
+	display: flex;
+	align-items: center;
+	background: none;
+	border: none;
+	cursor: pointer;
+
+	svg {
+		height: 1.25rem;
+		width: 1.25rem;
+		color: #9ca3af;
+		transition: color 0.2s ease-in-out;
+
+		&:hover {
+			color: #4b5563;
+		}
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		svg:hover {
+			color: #d1d5db;
+		}
+	}
+}
+
+.error-message {
+	border-radius: 0.5rem;
+	background: #fef2f2;
+	border: 1px solid #fecaca;
+	padding: 1rem;
+
+	@media (prefers-color-scheme: dark) {
+		background: rgba(239, 68, 68, 0.2);
+		border-color: #991b1b;
+	}
+}
+
+.error-content {
+	display: flex;
+}
+
+.error-icon {
+	flex-shrink: 0;
+
+	svg {
+		height: 1.25rem;
+		width: 1.25rem;
+		color: #f87171;
+	}
+}
+
+.error-text {
+	margin-left: 0.75rem;
+
+	p {
+		font-size: 0.875rem;
+		color: #b91c1c;
+
+		@media (prefers-color-scheme: dark) {
+			color: #f87171;
+		}
+	}
+}
+
+.submit-button {
+	position: relative;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 0.75rem 1rem;
+	border: 1px solid transparent;
+	font-size: 0.875rem;
+	font-weight: 500;
+	border-radius: 0.5rem;
+	color: white;
+	background: linear-gradient(to right, #0891b2, #2563eb);
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	transition: all 0.2s ease-in-out;
+	cursor: pointer;
+
+	&:hover {
+		background: linear-gradient(to right, #0e7490, #1d4ed8);
+		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	}
+
+	&:focus {
+		outline: none;
+		ring: 2px;
+		ring-offset: 2px;
+		ring-color: #06b6d4;
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.loading-spinner {
+	display: flex;
+	align-items: center;
+
+	svg {
+		animation: spin 1s linear infinite;
+		margin-left: -0.25rem;
+		margin-right: 0.75rem;
+		height: 1.25rem;
+		width: 1.25rem;
+		color: white;
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.demo-credentials {
+	margin-top: 1.5rem;
+	padding: 1rem;
+	background: #f9fafb;
+	border-radius: 0.5rem;
+	border: 1px solid #e5e7eb;
+
+	@media (prefers-color-scheme: dark) {
+		background: rgba(51, 65, 85, 0.5);
+		border-color: #475569;
+	}
+}
+
+.demo-title {
+	font-size: 0.75rem;
+	color: #4b5563;
+	margin-bottom: 0.5rem;
+
+	@media (prefers-color-scheme: dark) {
+		color: #9ca3af;
+	}
+}
+
+.demo-content {
+	font-size: 0.75rem;
+	color: #6b7280;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+
+	@media (prefers-color-scheme: dark) {
+		color: #6b7280;
+	}
+}
+
+.login-footer {
+	text-align: center;
+}
+
+.footer-text {
+	font-size: 0.75rem;
+	color: #6b7280;
+
+	@media (prefers-color-scheme: dark) {
+		color: #9ca3af;
+	}
+}
+
+.footer-link {
+	color: #0891b2;
+	font-weight: 500;
+	text-decoration: none;
+	transition: color 0.2s ease-in-out;
+
+	&:hover {
+		color: #0e7490;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		color: #22d3ee;
+
+		&:hover {
+			color: #67e8f9;
+		}
+	}
+}

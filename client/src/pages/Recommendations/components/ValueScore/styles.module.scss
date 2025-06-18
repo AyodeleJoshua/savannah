@@ -1,0 +1,19 @@
+.score {
+  &__value-score {
+    display: flex;
+    gap: 4px;
+  }
+
+  &__value-box {
+    width: 18px;
+    height: 18px;
+    background: #00b3c6;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  &__value-box--inactive {
+    @extend .score__value-box;
+    background: #c9c9c9;
+  }
+}

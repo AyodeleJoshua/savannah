@@ -1,0 +1,87 @@
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  z-index: 1;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  padding-left: 44px; // Space for left icon
+  padding-right: 44px; // Space for right icon
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #ffffff;
+  transition: all 0.2s ease-in-out;
+
+  &:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  &:disabled {
+    background-color: #f9fafb;
+    color: #9ca3af;
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  // Adjust padding when no icons are present
+  &:not([data-has-left-icon="true"]):not([data-has-right-icon="true"]) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  &:not([data-has-left-icon="true"]) {
+    padding-left: 16px;
+  }
+
+  &:not([data-has-right-icon="true"]) {
+    padding-right: 16px;
+  }
+}
+
+.input-right-icon {
+  position: absolute;
+  right: 12px;
+  z-index: 1;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Special styling for password inputs
+.form-input[type="password"] {
+  & + .input-right-icon {
+    color: #6b7280;
+  }
+}
