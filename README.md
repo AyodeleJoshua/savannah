@@ -75,32 +75,18 @@ npm run install:all           # Install dependencies for all packages
 
 ### Client-Specific Commands
 ```bash
-npm run dev --workspace=client           # Start frontend development server
+npm run dev                              # Start frontend development server
 npm run build --workspace=client         # Build frontend
 npm run preview --workspace=client       # Preview production build
 npm run test:client                      # Run frontend tests
 npm run test:client:watch                # Run tests in watch mode
 npm run test:client:coverage             # Run tests with coverage
-npm run test:client:ui                   # Run tests with UI
-npm run test:client:integration          # Run integration tests
-```
-
-### Server-Specific Commands
-```bash
-npm run dev --workspace=server           # Start backend development server
-npm run dev:auth --workspace=server      # Start with authentication
-npm run build --workspace=server         # Build backend
-npm run start --workspace=server         # Start production server
-npm run test --workspace=server          # Run backend tests
-npm run test:watch --workspace=server    # Run tests in watch mode
-npm run test:coverage --workspace=server # Run tests with coverage
 ```
 
 ## 🌐 Application URLs
 
 - **Frontend Application**: http://localhost:3000
 - **Backend API**: http://localhost:3001
-- **API Documentation**: http://localhost:3001/api
 
 ## 🔌 API Endpoints
 
@@ -249,8 +235,3 @@ This project is private and confidential.
 - [Vite Documentation](https://vitejs.dev/)
 - [Tailwind CSS Documentation](https://tailwindcss.com/)
 - [TanStack Query Documentation](https://tanstack.com/query)
-- [Express.js Documentation](https://expressjs.com/)
-
-## 📞 Support
-
-For questions or issues, please refer to the project documentation or contact the development team. 
