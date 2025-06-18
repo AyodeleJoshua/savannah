@@ -14,7 +14,7 @@ export default function ProtectedRoutes() {
     if (!authToken) {
       navigate("/login?referal=");
     }
-  }, [location.pathname]);
+  }, [location.pathname, authToken]);
 
   return (
     <div className="flex w-screen h-screen">

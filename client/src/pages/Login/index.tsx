@@ -39,8 +39,13 @@ export default function Login() {
       login();
       setItemInStorage(constants.AUTH_TOKEN, loginResponse.token);
       navigate(referal, { replace: true });
-    } catch (error: any) {
-      setError(error.response.data.error);
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error) {
+        const apiError = error as { response: { data: { error: string } } };
+        setError(apiError.response.data.error);
+      } else {
+        setError('An unexpected error occurred');
+      }
     } finally {
       setIsSigningIn(false);
     }

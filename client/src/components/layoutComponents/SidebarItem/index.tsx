@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styles from "./styles.module.scss";
-import { constants } from "../../../utils/constants";
 import { useAuth } from "../../../contexts/AuthContext";
 
 interface SidebarItemProps {
@@ -14,7 +13,6 @@ interface SidebarItemProps {
 export default function SidebarItem(props: SidebarItemProps) {
   const location = useLocation();
   const isActive = location.pathname.includes(props.link);
-  const navigate = useNavigate();
   const { logout } = useAuth();
 
   if (props.isLogout) {

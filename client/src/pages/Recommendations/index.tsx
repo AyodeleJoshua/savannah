@@ -47,10 +47,10 @@ export default function Recommendations() {
     setSearch(searchTerm);
   });
 
-  if (error as any)
+  if (error)
     return (
       <div className="mt-10">
-        {"An error has occurred: " + (error as any).message}
+        {"An error has occurred: " + (error as Error).message}
       </div>
     );
 

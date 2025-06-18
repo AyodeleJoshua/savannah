@@ -27,6 +27,11 @@ export default function RecommendationDetailsModal({
 }: IRecommendationDetailsModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
+  const {
+    mutate: archiveRecommendation,
+    isPending: isArchivingRecommendation,
+  } = useArchiveRecommendation(isArchived);
+
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -70,11 +75,6 @@ export default function RecommendationDetailsModal({
   };
 
   if (!isOpen) return null;
-
-  const {
-    mutate: archiveRecommendation,
-    isPending: isArchivingRecommendation,
-  } = useArchiveRecommendation(isArchived);
 
   return (
     <div className={styles["modal-overlay"]}>

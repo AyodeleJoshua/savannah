@@ -193,7 +193,8 @@ npm run test:watch --workspace=server
 ### Environment Variables
 1. Copy `.env.example` to `.env` in both client and server directories
 2. Configure your environment variables
-3. Restart the development servers
+3. From the root directory, run ``npm run instal:all``
+4. Run ``npm run dev``
 
 ### TypeScript Configuration
 - **Strict Mode**: Enabled for type safety
