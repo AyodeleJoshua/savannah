@@ -40,6 +40,25 @@ npm run build:server
 npm run start:server
 ```
 
+## 🔧 Configuration
+
+### Environment Variables
+1. Copy `.env.example` to `.env` in both client and server directories
+2. Configure your environment variables
+3. From the root directory, run ``npm run instal:all``
+4. Run ``npm run dev``
+
+### TypeScript Configuration
+- **Strict Mode**: Enabled for type safety
+- **No Implicit Any**: Prevents accidental `any` types
+- **Path Mapping**: Configured for clean imports
+- **ESLint Integration**: Type-aware linting rules
+
+### Build Configuration
+- **Vite**: Fast development and optimized production builds
+- **PostCSS**: CSS processing with Tailwind and Autoprefixer
+- **TypeScript**: Compilation with strict type checking
+
 ## 📁 Packages
 
 ### Client (`client/`)
@@ -81,59 +100,6 @@ npm run preview --workspace=client       # Preview production build
 npm run test:client                      # Run frontend tests
 npm run test:client:watch                # Run tests in watch mode
 npm run test:client:coverage             # Run tests with coverage
-```
-
-## 🌐 Application URLs
-
-- **Frontend Application**: http://localhost:3000
-- **Backend API**: http://localhost:3001
-
-## 🔌 API Endpoints
-
-### Authentication
-```typescript
-POST /login
-Body: { username: string, password: string }
-Response: { token: string }
-```
-
-### Recommendations
-```typescript
-GET /recommendations
-Headers: { Authorization: 'Bearer <token>' } // Optional
-Query Parameters:
-  cursor?: string        // Pagination cursor
-  limit?: number        // Items per page (default: 100)
-  search?: string       // Search term
-  tags?: string        // Comma-separated tags
-
-Response: {
-  data: Recommendation[];
-  pagination: {
-    cursor: { next: string | null };
-    totalItems: number;
-  };
-  availableTags: {
-    frameworks: string[];
-    reasons: string[];
-    providers: string[];
-    classes: string[];
-  };
-}
-```
-
-### Archived Recommendations
-```typescript
-GET /recommendations/archive
-// Same parameters and response format as /recommendations
-```
-
-### Archive/Unarchive Actions
-```typescript
-POST /recommendations/{id}/archive
-POST /recommendations/{id}/unarchive
-Headers: { Authorization: 'Bearer <token>' } // Optional
-Response: { success: boolean }
 ```
 
 ## 📝 Features
@@ -208,24 +174,58 @@ To run the end-to-end test, you need to start the server on a seperate terminal.
 - On a seperate terminal, go to the root folder of the project and run ``npm run test:e2e:ci``
 
 
-## 🔧 Configuration
+## 🌐 Application URLs
 
-### Environment Variables
-1. Copy `.env.example` to `.env` in both client and server directories
-2. Configure your environment variables
-3. From the root directory, run ``npm run instal:all``
-4. Run ``npm run dev``
+- **Frontend Application**: http://localhost:3000
+- **Backend API**: http://localhost:3001
 
-### TypeScript Configuration
-- **Strict Mode**: Enabled for type safety
-- **No Implicit Any**: Prevents accidental `any` types
-- **Path Mapping**: Configured for clean imports
-- **ESLint Integration**: Type-aware linting rules
+## 🔌 API Endpoints
 
-### Build Configuration
-- **Vite**: Fast development and optimized production builds
-- **PostCSS**: CSS processing with Tailwind and Autoprefixer
-- **TypeScript**: Compilation with strict type checking
+### Authentication
+```typescript
+POST /login
+Body: { username: string, password: string }
+Response: { token: string }
+```
+
+### Recommendations
+```typescript
+GET /recommendations
+Headers: { Authorization: 'Bearer <token>' } // Optional
+Query Parameters:
+  cursor?: string        // Pagination cursor
+  limit?: number        // Items per page (default: 100)
+  search?: string       // Search term
+  tags?: string        // Comma-separated tags
+
+Response: {
+  data: Recommendation[];
+  pagination: {
+    cursor: { next: string | null };
+    totalItems: number;
+  };
+  availableTags: {
+    frameworks: string[];
+    reasons: string[];
+    providers: string[];
+    classes: string[];
+  };
+}
+```
+
+### Archived Recommendations
+```typescript
+GET /recommendations/archive
+// Same parameters and response format as /recommendations
+```
+
+### Archive/Unarchive Actions
+```typescript
+POST /recommendations/{id}/archive
+POST /recommendations/{id}/unarchive
+Headers: { Authorization: 'Bearer <token>' } // Optional
+Response: { success: boolean }
+```
 
 ## 🚀 Deployment
 
