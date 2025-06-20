@@ -1,4 +1,3 @@
-import { PiStarFourFill, PiArchiveBold } from "react-icons/pi";
 import Card from "./components/Card/index";
 import RecommendationDetailsModal from "./components/RecommendationDetailsModal";
 import { useInView } from "react-intersection-observer";
@@ -7,7 +6,7 @@ import useGetRecommendations from "./hooks/useGetRecommendations";
 import type { Recommendation } from "./types";
 import styles from "./styles.module.scss";
 import InputFilterWithPagination from "./components/InputFilterWithPagination";
-import { Link } from "react-router-dom";
+import PageHeader from "./components/PageHeader";
 import { debounceSearch } from "../../utils/debounce";
 
 export default function Recommendations() {
@@ -49,28 +48,14 @@ export default function Recommendations() {
 
   if (error)
     return (
-      <div className="mt-10">
+      <div className="mt-10" data-testid="error-message">
         {"An error has occurred: " + (error as Error).message}
       </div>
     );
 
-  // TODO: Use skeleton for loading state
   return (
-    <div>
-      <div className="flex justify-between">
-        <h2 className="flex items-center gap-2">
-          <span className="text-2xl font-medium">Recommendations</span>
-          <span className="text-[var(--color-text-active)]">
-            <PiStarFourFill size={20} />
-          </span>
-        </h2>
-        <Link
-          to="/recommendations/archived"
-          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-500 cursor-pointer"
-        >
-          <PiArchiveBold size={20} /> Archive
-        </Link>
-      </div>
+    <div data-testid="recommendations-page">
+      <PageHeader />
       <InputFilterWithPagination
         multiSelectOptions={
           data?.pages[0]?.availableTags?.providers?.map((provider) => ({
@@ -93,10 +78,10 @@ export default function Recommendations() {
         onSearchChange={debouncedSearchHandler}
       />
       <div
-        className={`mt-12 space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto ${styles["scrollbar-hide"]}`}
+        className={`${styles["recommendations__content"]} ${styles["scrollbar-hide"]}`}
       >
         {data?.pages[0]?.data?.length === 0 && (
-          <p className="text-center text-2xl font-medium">
+          <p className="text-center text-[1.5rem] font-medium" data-testid="no-recommendations-message">
             No recommendations found
           </p>
         )}
@@ -107,7 +92,6 @@ export default function Recommendations() {
               return (
                 <div ref={ref} key={recommendation.recommendationId}>
                   <Card
-                    key={recommendation.recommendationId}
                     recommendation={recommendation}
                     onClick={handleCardClick}
                   />
@@ -123,8 +107,8 @@ export default function Recommendations() {
             );
           }),
         )}
-        {isLoading && <p className="mb-4">Loading...</p>}
-        {isFetchingNextPage && <p className="mb-4">Fetching next page...</p>}
+        {isLoading && <p className="mb-4" data-testid="loading-indicator">Loading...</p>}
+        {isFetchingNextPage && <p className="mb-4" data-testid="loading-more-indicator">Fetching next page...</p>}
       </div>
 
       {/* Recommendation Details Modal */}

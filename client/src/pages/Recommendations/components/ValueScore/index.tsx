@@ -12,7 +12,7 @@ export default function ValueScore({ score }: { score: number }) {
   const totalBoxes = 4;
   return (
     <div className="w-full flex items-center justify-center gap-4 mt-4">
-      <p className="whitespace-nowrap">Value score</p>
+      <p className="whitespace-nowrap font-semibold text-[1.2rem] xl:text-[1.5rem]">Value score</p>
       <div className={styles["score__value-score"]}>
         {Array.from({ length: totalBoxes }, (_, index) => (
           <span

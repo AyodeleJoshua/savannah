@@ -26,6 +26,7 @@ export default function RecommendationDetailsModal({
   isArchived = false,
 }: IRecommendationDetailsModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   const {
     mutate: archiveRecommendation,
@@ -52,6 +53,10 @@ export default function RecommendationDetailsModal({
       document.addEventListener("keydown", handleEscape);
       document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
+      
+      setTimeout(() => {
+        closeButtonRef.current?.focus();
+      }, 0);
     }
 
     return () => {
@@ -77,15 +82,22 @@ export default function RecommendationDetailsModal({
   if (!isOpen) return null;
 
   return (
-    <div className={styles["modal-overlay"]}>
-      <div className={styles["modal"]} ref={modalRef}>
+    <div className={styles["modal-overlay"]} data-testid="modal-overlay">
+      <div
+        className={styles["modal"]}
+        ref={modalRef}
+        data-testid="recommendation-modal"
+        role="dialog"
+      >
         <div className={styles["modal__header"]}>
           <div className={styles["modal__header-content"]}>
             <div className={styles["modal__header-icon"]}>
               <LuBoxes />
             </div>
             <div className={styles["modal__header-text"]}>
-              <h2 className={styles["modal__title"]}>{recommendation.title}</h2>
+              <h2 className={styles["modal__title"]} data-testid="modal-title">
+                {recommendation.title}
+              </h2>
               <div className={styles["modal__score-providers"]}>
                 <ValueScore score={recommendation.score} />
                 <div className={styles["modal__providers"]}>
@@ -102,9 +114,11 @@ export default function RecommendationDetailsModal({
             </div>
           </div>
           <button
+            ref={closeButtonRef}
             className={styles["modal__close-button"]}
             onClick={onClose}
             aria-label="Close modal"
+            data-testid="modal-close-button"
           >
             <IoClose />
           </button>

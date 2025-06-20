@@ -15,8 +15,14 @@ export default function Input({
   return (
     <div className={`${styles["input-wrapper"]} ${className}`}>
       <div className={styles["input-wrapper__field-container"]}>
-        {iconLeft && <span className={styles["input-wrapper__icon"]}>{iconLeft}</span>}
-        <input data-testid="search-input" className={`${styles["input-wrapper__input"]} ${inputClassName}`} {...inputProps} />
+        {iconLeft && (
+          <span className={styles["input-wrapper__icon"]}>{iconLeft}</span>
+        )}
+        <input
+          data-testid="search-input"
+          className={`${styles["input-wrapper__input"]} ${inputClassName}`}
+          {...inputProps}
+        />
       </div>
     </div>
   );

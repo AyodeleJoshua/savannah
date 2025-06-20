@@ -9,6 +9,7 @@
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
+    font-size: 10px;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -25,7 +26,7 @@
 // Theme variables
 $themes: (
   light: (
-    color-bg-primary: #ffffff,
+    color-bg-primary: #f2f2f2,
     color-bg-secondary: #f8fafc,
     color-bg-tertiary: #f1f5f9,
     color-text-primary: #0f172a,
@@ -128,11 +129,6 @@ button {
   color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.2s ease;
-
-  &:hover {
-    border-color: var(--color-border-hover);
-    background-color: var(--color-bg-tertiary);
-  }
 
   &:focus,
   &:focus-visible {

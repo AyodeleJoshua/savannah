@@ -7,7 +7,7 @@ export interface IBreadCrumbsProps {
 
 export const BreadCrumbs: React.FC<IBreadCrumbsProps> = ({ items }) => {
   return (
-    <nav className="flex items-center text-sm" aria-label="Breadcrumb">
+    <nav className="flex items-center text-2xl" aria-label="Breadcrumb" data-testid="breadcrumbs">
       <ol className="flex space-x-2">
         {items.map((item, idx) => (
           <li key={item.label} className="flex items-center">
@@ -16,6 +16,7 @@ export const BreadCrumbs: React.FC<IBreadCrumbsProps> = ({ items }) => {
               className={`${
                 idx === 0 ? "text-gray-400" : "text-gray-800 font-medium"
               }`}
+              data-testid="breadcrumb-item"
             >
               {item.label}
             </Link>

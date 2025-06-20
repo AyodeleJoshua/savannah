@@ -7,7 +7,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Custom color palette that matches your existing theme
         primary: {
           50: '#f0f9ff',
           100: '#e0f2fe',
@@ -20,6 +19,10 @@ export default {
           800: '#075985',
           900: '#0c4a6e',
         },
+      },
+      screens: {
+        '3xl': '1800px',
+        'lg': '760px',
       },
     },
   },

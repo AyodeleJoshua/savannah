@@ -96,6 +96,6 @@ describe('Pagination', () => {
     );
     
     const container = screen.getByTestId('pagination');
-    expect(container).toHaveClass('text-gray-600', 'text-sm');
+    expect(container).toHaveClass('text-gray-600', 'text-[1.4rem]');
   });
 }); 

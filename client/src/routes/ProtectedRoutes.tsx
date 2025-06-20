@@ -17,10 +17,9 @@ export default function ProtectedRoutes() {
   }, [location.pathname, authToken]);
 
   return (
-    <div className="flex w-screen h-screen">
+    <div className="lg:flex lg:h-screen lg:overflow-y-clip 3xl:max-w-[1440px] 3xl:mx-auto">
       <Sidebar />
-
-      <main className="px-4 py-8 grow 2xl:grow-0 shrink">
+      <main className="px-[2rem] xl:px-[4rem] overflow-y-auto grow">
         <Outlet />
       </main>
     </div>

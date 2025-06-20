@@ -5,7 +5,7 @@ import { lazy, Suspense, useEffect } from "react";
 import RecommendationsRoutes from "./routes/privateRoutes/RecommendationsRoutes";
 import { getItemFromStorage } from "./utils/browserStorage";
 import { constants } from "./utils/constants";
-import { Toaster } from "react-hot-toast";
+import ToastDefault from "./utils/ToastDefault";
 
 const Login = lazy(() => import("./pages/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -34,34 +34,11 @@ function App() {
           </Route>
           <Route
             path="/*"
-            element={<Navigate to="/dashboard" replace={true} />}
+            element={<Navigate to="/recommendations" replace={true} />}
           />
         </Routes>
       </Suspense>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: "#363636",
-            color: "#fff",
-          },
-          success: {
-            duration: 3000,
-            iconTheme: {
-              primary: "#4ade80",
-              secondary: "#fff",
-            },
-          },
-          error: {
-            duration: 4000,
-            iconTheme: {
-              primary: "#ef4444",
-              secondary: "#fff",
-            },
-          },
-        }}
-      />
+      <ToastDefault />
     </>
   );
 }

@@ -167,6 +167,7 @@ Response: { success: boolean }
 
 ### Test Coverage
 - **Unit Tests**: Component and utility function testing
+- **End-to-End Tests**: Full application testing with Cypress
 
 ### Running Tests
 ```bash
@@ -187,6 +188,25 @@ npm run test:coverage --workspace=server
 npm run test:client:watch
 npm run test:watch --workspace=server
 ```
+
+### End-to-End Testing with Cypress
+
+The application includes comprehensive end-to-end tests using Cypress that cover:
+
+- **Authentication Flow**: Login, logout, and session management
+- **Dashboard Navigation**: Page routing and access control
+- **Archive Functionality**: Archiving and unarchiving recommendations
+- **Accessibility**: ARIA labels, keyboard navigation, and focus management
+- **Modal Interactions**: Opening, closing, and content verification
+- **Error Handling**: Network errors and edge cases
+
+#### Running E2E Tests
+To run the end-to-end test, you need to start the server on a seperate terminal.
+- In the root folder of the project, run ``cd server``
+- ``npm install``
+- ``npm run dev``
+- On a seperate terminal, go to the root folder of the project and run ``npm run test:e2e:ci``
+
 
 ## 🔧 Configuration
 

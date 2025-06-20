@@ -49,25 +49,27 @@ export default function ArchiveRecommendations() {
 
   if (error)
     return (
-      <div className="mt-10">
+      <div className="mt-10" data-testid="error-message">
         {"An error has occurred: " + (error as Error).message}
       </div>
     );
 
   // TODO: Use skeleton for loading state
   return (
-    <div>
-      <div className="mb-3">
-      <BreadCrumbs
-        items={[
-          { label: "Recommendations", href: "/recommendations" },
-          { label: "Archive", href: "/recommendations/archived" },
+    <div className="mt-10" data-testid="archive-page">
+      <div className="mb-6">
+        <BreadCrumbs
+          items={[
+            { label: "Recommendations", href: "/recommendations" },
+            { label: "Archive", href: "/recommendations/archived" },
           ]}
         />
       </div>
       <div className="flex justify-between">
         <h2 className="flex items-center gap-2">
-          <span className="text-2xl font-medium">Recommendations Archive</span>
+          <span className="text-3xl font-medium" data-testid="archive-title">
+            Recommendations Archive
+          </span>
           <span>
             <PiArchiveBold size={20} />
           </span>
@@ -98,7 +100,10 @@ export default function ArchiveRecommendations() {
         className={`mt-12 space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto ${styles["scrollbar-hide"]}`}
       >
         {data?.pages[0]?.data?.length === 0 && (
-          <p className="text-center text-2xl font-medium">
+          <p
+            className="text-center text-2xl font-medium"
+            data-testid="no-archived-message"
+          >
             No archived recommendations found
           </p>
         )}
@@ -112,7 +117,7 @@ export default function ArchiveRecommendations() {
                     key={recommendation.recommendationId}
                     recommendation={recommendation}
                     onClick={handleCardClick}
-                    isArchived={true}
+                    isArchived
                   />
                 </div>
               );
@@ -122,13 +127,21 @@ export default function ArchiveRecommendations() {
                 key={recommendation.recommendationId}
                 recommendation={recommendation}
                 onClick={handleCardClick}
-                isArchived={true}
+                isArchived
               />
             );
           }),
         )}
-        {isLoading && <p className="mb-4">Loading...</p>}
-        {isFetchingNextPage && <p className="mb-4">Fetching next page...</p>}
+        {isLoading && (
+          <p className="mb-4" data-testid="loading-indicator">
+            Loading...
+          </p>
+        )}
+        {isFetchingNextPage && (
+          <p className="mb-4" data-testid="loading-more-indicator">
+            Fetching next page...
+          </p>
+        )}
       </div>
 
       {/* Recommendation Details Modal */}

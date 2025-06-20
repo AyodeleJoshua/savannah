@@ -32,12 +32,13 @@ export default function Card({
         <span className={styles["card__icon"]}>
           <RiBox3Line />
         </span>
+        {isArchived && <span data-testid="archived-indicator" className="archived-indicator">Archived</span>}
       </div>
 
       <div className={styles["card__content-section"]}>
-        <div className="pr-8 flex flex-col justify-between">
+        <div className="lg:pr-8 flex flex-col justify-between">
           <div className={styles["card__header-row"]}>
-            <h2 className={styles["card__title"]}>{recommendation?.title}</h2>
+            <h2 className={styles["card__title"]} data-testid="recommendation-title">{recommendation?.title}</h2>
             <div className={styles["card__cloud-icons"]}>
               <span>
                 <SiGooglecloud />
@@ -65,7 +66,7 @@ export default function Card({
             {recommendation.impactAssessment?.totalViolations} Violations /
             month
           </p>
-          <hr className="w-full border-t-2 border-gray-300" />
+          <hr className="w-full border-t border-gray-300" />
           <ValueScore score={recommendation.score} />
         </div>
       </div>

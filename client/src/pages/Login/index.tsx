@@ -40,11 +40,11 @@ export default function Login() {
       setItemInStorage(constants.AUTH_TOKEN, loginResponse.token);
       navigate(referal, { replace: true });
     } catch (error: unknown) {
-      if (error && typeof error === 'object' && 'response' in error) {
+      if (error && typeof error === "object" && "response" in error) {
         const apiError = error as { response: { data: { error: string } } };
         setError(apiError.response.data.error);
       } else {
-        setError('An unexpected error occurred');
+        setError("An unexpected error occurred");
       }
     } finally {
       setIsSigningIn(false);
@@ -59,14 +59,14 @@ export default function Login() {
   }, []);
 
   return (
-    <div className={styles["login-container"]}>
+    <div className={styles["login-container"]} data-testid="login-container">
       <div className={styles["login-wrapper"]}>
         <div className={styles["login-header"]}>
           <div className={styles["login-icon"]}>
             <HiLockClosed size={32} />
           </div>
-          <h2 className={styles["login-title"]}>Welcome back</h2>
-          <p className={styles["login-subtitle"]}>
+          <h2 className={styles["login-title"]} data-testid="login-title">Welcome back</h2>
+          <p className={styles["login-subtitle"]} data-testid="login-subtitle">
             Sign in to your account to continue
           </p>
         </div>
@@ -89,6 +89,7 @@ export default function Login() {
                     setUsername(e.target.value);
                   }}
                   disabled={isSigningIn}
+                  data-testid="username-input"
                 />
               </div>
             </div>
@@ -102,19 +103,18 @@ export default function Login() {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
                   required
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`${styles["form-input"]} ${styles["password-input"]}`}
                   disabled={isSigningIn}
+                  data-testid="password-input"
                 />
               </div>
             </div>
 
             {error && (
-              <div className={styles["error-message"]}>
+              <div className={styles["error-message"]} data-testid="error-message">
                 <div className={styles["error-content"]}>
                   <div className={styles["error-icon"]}>
                     <HiExclamationCircle size={20} />
@@ -131,12 +131,13 @@ export default function Login() {
                 type="submit"
                 disabled={isSigningIn}
                 className={styles["submit-button"]}
+                data-testid="login-button"
               >
                 {isSigningIn ? "Signing in..." : "Sign in"}
               </button>
             </div>
 
-            <div className={styles["demo-credentials"]}>
+            <div className={styles["demo-credentials"]} data-testid="demo-credentials">
               <p className={styles["demo-title"]}>Demo credentials:</p>
               <div className={styles["demo-content"]}>
                 <p>Username: admin</p>
@@ -144,19 +145,6 @@ export default function Login() {
               </div>
             </div>
           </form>
-        </div>
-
-        <div className={styles["login-footer"]}>
-          <p className={styles["footer-text"]}>
-            By signing in, you agree to our{" "}
-            <a href="#" className={styles["footer-link"]}>
-              Terms of Service
-            </a>{" "}
-            and{" "}
-            <a href="#" className={styles["footer-link"]}>
-              Privacy Policy
-            </a>
-          </p>
         </div>
       </div>
     </div>

@@ -75,10 +75,21 @@ export default function MultiSelectDropdown({
       className={styles["multi-select-dropdown"]}
       data-testid="multi-select-dropdown"
       ref={dropdownRef}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleToggleDropdown();
+        }
+      }}
+      aria-expanded={isOpen}
+      aria-haspopup="listbox"
     >
       <button
         className={styles["multi-select-dropdown__button"]}
         onClick={handleToggleDropdown}
+        role="button"
       >
         <span className={styles["multi-select-dropdown__button-icon"]}>
           <LuFilter />

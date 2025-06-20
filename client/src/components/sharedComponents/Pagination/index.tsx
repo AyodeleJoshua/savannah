@@ -12,7 +12,7 @@ export default function Pagination({
   const startItem = (currentPage - 1) * itemsPerPage + 1;
 
   return (
-    <div data-testid="pagination" className="text-gray-600 text-sm">
+    <div data-testid="pagination" className="text-[1.4rem] text-gray-600">
       Showing {startItem} of {totalItems} results
     </div>
   );

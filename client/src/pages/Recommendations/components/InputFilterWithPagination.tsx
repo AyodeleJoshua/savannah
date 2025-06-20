@@ -20,12 +20,14 @@ export default function InputFilterWithPagination(
     onSearchChange,
   } = props;
   return (
-    <div className="mt-12 flex justify-between">
-      <div className="space-x-4">
+    <div className="mt-8 lg:mt-16 lg:flex lg:justify-between lg:items-center">
+      <div className="space-y-4 mb-4">
         <Input
           iconLeft={<HiMagnifyingGlass />}
           placeholder="Search"
           onChange={(e) => onSearchChange(e.target.value)}
+          className="w-full md:w-auto xl:w-[450px] md:mr-4"
+          aria-label="Search recommendations"
         />
         <MultiSelectDropdown
           options={multiSelectOptions}
