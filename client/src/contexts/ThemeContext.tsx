@@ -13,14 +13,14 @@ const ThemeContext = createContext<IThemeContext | undefined>(undefined);
 const THEME_STORAGE_KEY = "savannah-theme";
 
 const getInitialTheme = (): TTheme => {
-  //   const storedTheme = localStorage.getItem(THEME_STORAGE_KEY) as TTheme;
-  //   if (storedTheme && (storedTheme === "light" || storedTheme === "dark")) {
-  //     return storedTheme;
-  //   }
+    // const storedTheme = localStorage.getItem(THEME_STORAGE_KEY) as TTheme;
+    // if (storedTheme && (storedTheme === "light" || storedTheme === "dark")) {
+    //   return storedTheme;
+    // }
 
-  //   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  //     return "dark";
-  //   }
+    // if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    //   return "dark";
+    // }
 
   return "light";
 };
@@ -73,10 +73,6 @@ export function ThemeProvider({ children }: IThemeProviderProps) {
   );
 }
 
-/**
- * Custom hook to use the theme context
- * @throws {Error} if used outside of ThemeProvider
- */
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {

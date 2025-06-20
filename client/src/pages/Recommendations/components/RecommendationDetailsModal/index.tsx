@@ -207,7 +207,7 @@ export default function RecommendationDetailsModal({
                     href={reading.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-xs"
+                    className="flex items-center gap-2 text-lg"
                   >
                     {reading.name} <FaExternalLinkAlt />
                   </a>
@@ -219,19 +219,19 @@ export default function RecommendationDetailsModal({
 
         <div className={styles["modal__footer"]}>
           <button
-            className={`${styles["modal__button"]} ${styles["modal__button--ghost"]}`}
+            className={`${styles["modal__button"]} ${styles["modal__button--ghost"]} text-2xl`}
             onClick={() =>
               archiveRecommendation(recommendation.recommendationId)
             }
             disabled={isArchivingRecommendation}
           >
-            <FiArchive />
+            <FiArchive size={24} />
             {isArchived ? "Unarchive" : "Archive"}
             {isArchivingRecommendation && isArchived && "Unarchiving..."}
             {isArchivingRecommendation && !isArchived && "Archiving..."}
           </button>
           <button
-            className={`${styles["modal__button"]} ${styles["modal__button--primary"]}`}
+            className={`${styles["modal__button"]} ${styles["modal__button--primary"]} text-2xl`}
           >
             Configure Policy
           </button>
