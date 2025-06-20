@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./index.scss";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
@@ -29,7 +29,7 @@ createRoot(document.getElementById("root")!).render(
           </AuthProvider>
         </ThemeProvider>
       </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   </StrictMode>,
 );
