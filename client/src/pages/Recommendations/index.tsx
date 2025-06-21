@@ -8,6 +8,7 @@ import styles from "./styles.module.scss";
 import InputFilterWithPagination from "./components/InputFilterWithPagination";
 import PageHeader from "./components/PageHeader";
 import { debounceSearch } from "../../utils/debounce";
+import FetchingIndicator from "./components/FetchingIndicator";
 
 export default function Recommendations() {
   const { ref, inView } = useInView();
@@ -81,7 +82,10 @@ export default function Recommendations() {
         className={`${styles["recommendations__content"]} ${styles["scrollbar-hide"]}`}
       >
         {data?.pages[0]?.data?.length === 0 && (
-          <p className="text-center text-[1.5rem] font-medium" data-testid="no-recommendations-message">
+          <p
+            className="text-center text-[1.5rem] font-medium"
+            data-testid="no-recommendations-message"
+          >
             No recommendations found
           </p>
         )}
@@ -107,8 +111,12 @@ export default function Recommendations() {
             );
           }),
         )}
-        {isLoading && <p className="mb-4" data-testid="loading-indicator">Loading...</p>}
-        {isFetchingNextPage && <p className="mb-4" data-testid="loading-more-indicator">Fetching next page...</p>}
+        {isLoading && (
+          <p className="mb-4" data-testid="loading-indicator">
+            Loading...
+          </p>
+        )}
+        {isFetchingNextPage && <FetchingIndicator />}
       </div>
 
       {/* Recommendation Details Modal */}

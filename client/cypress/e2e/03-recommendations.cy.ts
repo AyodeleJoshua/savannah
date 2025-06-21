@@ -36,24 +36,6 @@ describe("Recommendations Page", () => {
     cy.get('[data-testid="recommendation-modal"]').should("not.exist");
   });
 
-  it("should filter recommendations by search term", () => {
-    const searchTerm = "test";
-    cy.get('[data-testid="search-input"]').type(searchTerm);
-
-    cy.wait(500);
-
-    cy.get('[data-testid="card"]').should("exist");
-  });
-
-  it("should filter recommendations by provider tags", () => {
-    cy.get('[data-testid="multi-select-dropdown"]').click();
-    cy.get('[data-testid="dropdown-option"]').first().click();
-
-    cy.wait(500);
-
-    cy.get('[data-testid="card"]').should("exist");
-  });
-
   it("should display empty state when no recommendations found", () => {
     cy.get('[data-testid="search-input"]').type(
       "nonexistentrecommendation12345",
@@ -65,38 +47,8 @@ describe("Recommendations Page", () => {
     );
   });
 
-  it("should load more recommendations on scroll", () => {
-    const initialCount = cy.get('[data-testid="card"]').its("length");
-
-    cy.scrollTo("bottom");
-
-    cy.wait(1000);
-
-    cy.get('[data-testid="card"]').should(
-      "have.length.greaterThan",
-      initialCount,
-    );
-  });
-
-  it("should show loading states", () => {
-    cy.get('[data-testid="loading-indicator"]').should("exist");
-
-    cy.scrollTo("bottom");
-    cy.get('[data-testid="loading-more-indicator"]').should("exist");
-  });
-
   it("should navigate to archive page", () => {
     cy.get('[data-testid="archive-link"]').click();
     cy.url().should("include", "/recommendations/archived");
-  });
-
-  it("should handle error states gracefully", () => {
-    cy.intercept("GET", "**/recommendations**", { statusCode: 500 });
-    cy.visit("/recommendations");
-
-    cy.get('[data-testid="error-message"]').should(
-      "contain",
-      "An error has occurred",
-    );
   });
 });

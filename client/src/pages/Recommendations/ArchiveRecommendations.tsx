@@ -9,6 +9,7 @@ import InputFilterWithPagination from "./components/InputFilterWithPagination";
 import { debounceSearch } from "../../utils/debounce";
 import useGetArchivedRecommendations from "./hooks/useGetAllArchievedRecommendations";
 import { BreadCrumbs } from "./components/BreadCrumbs";
+import FetchingIndicator from "./components/FetchingIndicator";
 
 export default function ArchiveRecommendations() {
   const { ref, inView } = useInView();
@@ -137,11 +138,7 @@ export default function ArchiveRecommendations() {
             Loading...
           </p>
         )}
-        {isFetchingNextPage && (
-          <p className="mb-4" data-testid="loading-more-indicator">
-            Fetching next page...
-          </p>
-        )}
+        {isFetchingNextPage && <FetchingIndicator />}
       </div>
 
       {/* Recommendation Details Modal */}

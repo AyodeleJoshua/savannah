@@ -171,7 +171,7 @@ To run the end-to-end test, you need to start the server on a seperate terminal.
 - In the root folder of the project, run ``cd server``
 - ``npm install``
 - ``npm run dev``
-- On a seperate terminal, go to the root folder of the project and run ``npm run test:e2e:ci``
+- On a seperate terminal, go to the root folder of the project and run ``npm run test:e2e``
 
 
 ## 🌐 Application URLs

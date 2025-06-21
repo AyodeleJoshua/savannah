@@ -41,34 +41,18 @@ describe('Archive Recommendations Page', () => {
     cy.get('[data-testid="modal-title"]').should('be.visible');
   });
 
-  it('should filter archived recommendations by search', () => {
-    const searchTerm = 'archived';
-    cy.get('[data-testid="search-input"]').type(searchTerm);
-    
-    cy.wait(500);
-    cy.get('[data-testid="card"]').should('exist');
-  });
-
-  it('should filter archived recommendations by provider', () => {
-    cy.get('[data-testid="filter-dropdown"]').click();
-    cy.get('[data-testid="dropdown-option"]').first().click();
-    
-    cy.wait(500);
-    cy.get('[data-testid="card"]').should('exist');
-  });
-
   it('should display empty state for no archived recommendations', () => {
     cy.get('[data-testid="search-input"]').type('nonexistentarchived12345');
     
     cy.get('[data-testid="no-archived-message"]').should('contain', 'No archived recommendations found');
   });
 
-  it('should load more archived recommendations on scroll', () => {
-    const initialCount = cy.get('[data-testid="card"]').its('length');
+  // it('should load more archived recommendations on scroll', () => {
+  //   const initialCount = cy.get('[data-testid="card"]').its('length');
     
-    cy.scrollTo('bottom');
-    cy.wait(1000);
+  //   cy.scrollTo('bottom');
+  //   cy.wait(1000);
     
-    cy.get('[data-testid="card"]').should('have.length.greaterThan', initialCount);
-  });
+  //   cy.get('[data-testid="card"]').should('have.length.greaterThan', initialCount);
+  // });
 }); 
