@@ -17,7 +17,8 @@
     "cypress:run": "cypress run",
     "cypress:run:headless": "cypress run --headless",
     "test:e2e": "start-server-and-test dev http://localhost:3000 cypress:run",
-    "test:e2e:open": "start-server-and-test dev http://localhost:3000 cypress:open"
+    "test:e2e:open": "start-server-and-test dev http://localhost:3000 cypress:open",
+    "test:e2e:with-backend": "start-server-and-test \"SILENT_MODE=true npm run dev --workspace=../server\" http://localhost:3001 \"start-server-and-test dev http://localhost:3000 cypress:run\""
   },
   "dependencies": {
     "@tanstack/react-query": "^5.80.7",
@@ -26,12 +27,14 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-intersection-observer": "^9.16.0",
-    "react-router-dom": "^6.21.3"
+    "react-router-dom": "^6.21.3",
+    "react-window": "^1.8.11"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@types/react-window": "^1.8.8",
     "@vitejs/plugin-react": "^4.4.1",
     "autoprefixer": "^10.4.16",
     "cypress": "^13.6.0",

@@ -1,22 +1,22 @@
 import { PiArchiveBold } from "react-icons/pi";
-import Card from "./components/Card/index";
 import RecommendationDetailsModal from "./components/RecommendationDetailsModal";
-import { useInView } from "react-intersection-observer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import type { Recommendation } from "./types";
 import styles from "./styles.module.scss";
 import InputFilterWithPagination from "./components/InputFilterWithPagination";
 import { debounceSearch } from "../../utils/debounce";
 import useGetArchivedRecommendations from "./hooks/useGetAllArchievedRecommendations";
 import { BreadCrumbs } from "./components/BreadCrumbs";
+import { transformAvailableTagsToOptions } from "./utils/tagOptions";
 import FetchingIndicator from "./components/FetchingIndicator";
+import VirtualizedRecommendationsList from "./components/VirtualizedRecommendationsList";
 
 export default function ArchiveRecommendations() {
-  const { ref, inView } = useInView();
   const [selectedRecommendation, setSelectedRecommendation] =
     useState<Recommendation | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [containerHeight, setContainerHeight] = useState(600);
+  const containerRef = useRef<HTMLDivElement>(null);
   const {
     data,
     isLoading,
@@ -28,25 +28,86 @@ export default function ArchiveRecommendations() {
     setTags,
   } = useGetArchivedRecommendations();
 
-  useEffect(() => {
-    if (inView && hasNextPage) {
-      fetchNextPage();
-    }
-  }, [hasNextPage, inView, fetchNextPage]);
+  const flattenedRecommendations = useMemo(() => {
+    return data?.pages.flatMap((page) => page.data) || [];
+  }, [data?.pages]);
 
-  const handleCardClick = (recommendation: Recommendation) => {
+  const paginationData = useMemo(() => {
+    const totalItems = data?.pages[0]?.pagination?.totalItems || 0;
+    const currentItemsCount = flattenedRecommendations.length;
+    const currentPage = Math.ceil(currentItemsCount / 10) || 1;
+
+    return {
+      currentPage,
+      itemsPerPage: 10,
+      totalItems,
+    };
+  }, [flattenedRecommendations.length, data?.pages[0]?.pagination?.totalItems]);
+
+  const multiSelectOptions = useMemo(() => {
+    return transformAvailableTagsToOptions(data?.pages[0]?.availableTags);
+  }, [data?.pages[0]?.availableTags]);
+
+  const breadcrumbItems = useMemo(
+    () => [
+      { label: "Recommendations", href: "/recommendations" },
+      { label: "Archive", href: "/recommendations/archived" },
+    ],
+    [],
+  );
+
+  const debouncedSearchHandler = useMemo(
+    () =>
+      debounceSearch((searchTerm: string) => {
+        setSearch(searchTerm);
+      }),
+    [setSearch],
+  );
+
+  const handleCardClick = useCallback((recommendation: Recommendation) => {
     setSelectedRecommendation(recommendation);
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     setIsModalOpen(false);
     setSelectedRecommendation(null);
-  };
+  }, []);
 
-  const debouncedSearchHandler = debounceSearch((searchTerm: string) => {
-    setSearch(searchTerm);
-  });
+  const handleMultiselectChange = useCallback(
+    (selectedItems: string[]) => {
+      setTags(selectedItems);
+    },
+    [setTags],
+  );
+
+  const handleLoadMore = useCallback(() => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  useEffect(() => {
+    const updateContainerHeight = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const topOffset = rect.top;
+        const bottomPadding = 20;
+        const newHeight = viewportHeight - topOffset - bottomPadding;
+        setContainerHeight(Math.max(400, newHeight));
+      }
+    };
+
+    updateContainerHeight();
+    window.addEventListener("resize", updateContainerHeight);
+
+    return () => {
+      window.removeEventListener("resize", updateContainerHeight);
+    };
+  }, []);
+
+  const ITEM_HEIGHT = 140;
 
   if (error)
     return (
@@ -55,16 +116,10 @@ export default function ArchiveRecommendations() {
       </div>
     );
 
-  // TODO: Use skeleton for loading state
   return (
     <div className="mt-10" data-testid="archive-page">
       <div className="mb-6">
-        <BreadCrumbs
-          items={[
-            { label: "Recommendations", href: "/recommendations" },
-            { label: "Archive", href: "/recommendations/archived" },
-          ]}
-        />
+        <BreadCrumbs items={breadcrumbItems} />
       </div>
       <div className="flex justify-between">
         <h2 className="flex items-center gap-2">
@@ -77,68 +132,37 @@ export default function ArchiveRecommendations() {
         </h2>
       </div>
       <InputFilterWithPagination
-        multiSelectOptions={
-          data?.pages[0]?.availableTags?.providers?.map((provider) => ({
-            label: provider,
-            count: 0,
-            id: provider,
-          })) || []
-        }
-        pagination={{
-          currentPage:
-            Math.ceil(
-              (data?.pages.flatMap((page) => page.data).length || 0) / 10,
-            ) || 1,
-          itemsPerPage: 10,
-          totalItems: data?.pages[0]?.pagination?.totalItems || 0,
-        }}
-        onMultiselectDropdownChange={(selectedItems) => {
-          setTags(selectedItems);
-        }}
+        multiSelectOptions={multiSelectOptions}
+        pagination={paginationData}
+        onMultiselectDropdownChange={handleMultiselectChange}
         onSearchChange={debouncedSearchHandler}
       />
       <div
-        className={`mt-12 space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto ${styles["scrollbar-hide"]}`}
+        className={styles["recommendations__content"]}
+        ref={containerRef}
+        style={{ height: `${containerHeight}px` }}
       >
-        {data?.pages[0]?.data?.length === 0 && (
-          <p
-            className="text-center text-2xl font-medium"
-            data-testid="no-archived-message"
-          >
-            No archived recommendations found
-          </p>
-        )}
-
-        {data?.pages.map((page) =>
-          page.data?.map((recommendation, index) => {
-            if (page.data.length === index + 1) {
-              return (
-                <div ref={ref} key={recommendation.recommendationId}>
-                  <Card
-                    key={recommendation.recommendationId}
-                    recommendation={recommendation}
-                    onClick={handleCardClick}
-                    isArchived
-                  />
-                </div>
-              );
-            }
-            return (
-              <Card
-                key={recommendation.recommendationId}
-                recommendation={recommendation}
-                onClick={handleCardClick}
-                isArchived
-              />
-            );
-          }),
-        )}
-        {isLoading && (
+        {isLoading && flattenedRecommendations.length === 0 ? (
           <p className="mb-4" data-testid="loading-indicator">
             Loading...
           </p>
+        ) : (
+          <VirtualizedRecommendationsList
+            recommendations={flattenedRecommendations}
+            onCardClick={handleCardClick}
+            containerHeight={containerHeight}
+            itemHeight={ITEM_HEIGHT}
+            onLoadMore={handleLoadMore}
+            hasNextPage={hasNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+          />
         )}
-        {isFetchingNextPage && <FetchingIndicator />}
+
+        {isFetchingNextPage && (
+          <div className="mt-4">
+            <FetchingIndicator />
+          </div>
+        )}
       </div>
 
       {/* Recommendation Details Modal */}

@@ -9,7 +9,7 @@ import type { Recommendation } from "../../types";
 import { LuBoxes } from "react-icons/lu";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import ValueScore from "../ValueScore";
-import { FiArchive } from "react-icons/fi";
+import { FiArchive, FiBarChart, FiBookOpen } from "react-icons/fi";
 import useArchiveRecommendation from "../../hooks/useArchiveRecommendation";
 
 interface IRecommendationDetailsModalProps {
@@ -53,7 +53,7 @@ export default function RecommendationDetailsModal({
       document.addEventListener("keydown", handleEscape);
       document.addEventListener("mousedown", handleClickOutside);
       document.body.style.overflow = "hidden";
-      
+
       setTimeout(() => {
         closeButtonRef.current?.focus();
       }, 0);
@@ -126,8 +126,7 @@ export default function RecommendationDetailsModal({
 
         <div className={styles["modal__content"]}>
           <div className={styles["modal__section"]}>
-            <h3 className={styles["modal__section-title"]}>Description</h3>
-            <p className={styles["modal__description"]}>
+            <p className={styles["modal__description"]} data-testid="modal-description">
               {recommendation.description}
             </p>
           </div>
@@ -135,7 +134,7 @@ export default function RecommendationDetailsModal({
           <div className={styles["modal__section"]}>
             <div className={styles["modal__row"]}>
               <span className={styles["modal__icon"]}>
-                <RiBox3Line />
+                <RiBox3Line size={18} />
               </span>
               <span className={styles["modal__section-title"]}>
                 Resources enforced by policy
@@ -150,7 +149,7 @@ export default function RecommendationDetailsModal({
           <div className={styles["modal__section"]}>
             <div className={styles["modal__row"]}>
               <span className={styles["modal__icon"]}>
-                <RiBox3Line />
+                <RiBox3Line size={18} />
               </span>
               <span className={styles["modal__section-title"]}>Reasons</span>
             </div>
@@ -164,7 +163,7 @@ export default function RecommendationDetailsModal({
           <div className={styles["modal__section"]}>
             <div className={styles["modal__row"]}>
               <span className={styles["modal__icon"]}>
-                <LuBoxes />
+                <FiBarChart size={18} />
               </span>
               <span className={styles["modal__section-title"]}>
                 Impact Assessment
@@ -197,8 +196,13 @@ export default function RecommendationDetailsModal({
           </div>
 
           <div className={styles["modal__section"]}>
-            <div className={styles["modal__section-title"]}>
-              Further Reading
+            <div className={styles["modal__row"]}>
+              <span className={styles["modal__icon"]}>
+                <FiBookOpen size={18} />
+              </span>
+              <span className={styles["modal__section-title"]}>
+                Further Reading
+              </span>
             </div>
             <ul>
               {recommendation.furtherReading.map((reading) => (
@@ -207,7 +211,7 @@ export default function RecommendationDetailsModal({
                     href={reading.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-lg"
+                    className={styles["modal__further-reading-link"]}
                   >
                     {reading.name} <FaExternalLinkAlt />
                   </a>

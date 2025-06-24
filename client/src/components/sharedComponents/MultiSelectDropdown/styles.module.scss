@@ -1,3 +1,5 @@
+@use "../../../styles/colors" as *;
+
 .multi-select-dropdown {
   position: relative;
   display: inline-block;
@@ -7,20 +9,22 @@
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-border-light);
   border-radius: 4px;
-  background-color: #fff;
+  background-color: var(--color-background-light);
   cursor: pointer;
   font-size: 14px;
-  color: #333;
-  background: #f2f2f2;
+  color: var(--color-text-dark);
+  transition: all 0.2s ease;
 
   &:hover {
-    background-color: #f5f5f5;
+    background-color: var(--color-background-medium);
+    border-color: var(--color-border-medium);
   }
 
   &-icon {
     margin-right: 8px;
+    color: var(--color-text-medium);
   }
 }
 
@@ -29,24 +33,34 @@
   top: 100%;
   left: 0;
   margin-top: 8px;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
+  background-color: var(--color-background-light);
+  border: 1px solid var(--color-border-light);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--shadow-color-medium);
   z-index: 1000;
   min-width: 19rem;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.multi-select-dropdown__header {
+  position: sticky;
+  top: 0;
+  background-color: var(--color-background-light);
+  border-bottom: 1px solid var(--color-border-light);
+  z-index: 2;
+  border-radius: 8px 8px 0 0;
 }
 
 .multi-select-dropdown__search {
   display: flex;
   align-items: center;
   padding: 8px 12px;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 8px;
 
   &-icon {
     margin-right: 8px;
-    color: #999;
+    color: var(--color-text-light);
   }
 
   &-input {
@@ -55,11 +69,29 @@
     flex-grow: 1;
     font-size: 14px;
     padding: 4px 0;
+    background: transparent;
+    color: var(--color-text-dark);
 
     &::placeholder {
-      color: #999;
+      color: var(--color-text-light);
+    }
+
+    &:focus {
+      outline: none;
     }
   }
+}
+
+.multi-select-dropdown__options-container {
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.multi-select-dropdown__options {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 4px 0;
 }
 
 .multi-select-dropdown__option {
@@ -68,31 +100,31 @@
   padding: 0.5rem 1rem;
   cursor: pointer;
   font-size: 14px;
-  color: #333;
-
+  color: var(--color-text-dark);
+  transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: #f9f9f9;
+    background-color: var(--color-background-medium);
   }
 
   &-checkbox {
     margin-right: 8px;
     cursor: pointer;
 
-    // Custom checkbox styling with custom checkmark color
+    // Custom checkbox styling with theme-aware colors
     appearance: none;
     -webkit-appearance: none;
     width: 16px;
     height: 16px;
-    border: 2px solid #ccc;
+    border: 2px solid var(--color-border-medium);
     border-radius: 3px;
-    background-color: #fff;
+    background-color: var(--color-background-light);
     position: relative;
     transition: all 0.2s ease;
 
     &:checked {
-      background-color: var(--color-text-active);
-      border-color: var(--color-text-active);
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
 
       &::after {
         content: "";
@@ -108,12 +140,12 @@
     }
 
     &:hover {
-      border-color: var(--color-text-active);
+      border-color: var(--color-primary);
     }
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+      box-shadow: 0 0 0 2px var(--focus-color-primary);
     }
   }
 
@@ -122,22 +154,39 @@
   }
 
   &-count {
-    color: #999;
+    color: var(--color-text-light);
     font-size: 12px;
     margin-left: 8px;
   }
+}
+
+.multi-select-dropdown__footer {
+  position: sticky;
+  bottom: 0;
+  background-color: var(--color-background-light);
+  border-top: 1px solid var(--color-border-light);
+  z-index: 2;
+  border-radius: 0 0 8px 8px;
 }
 
 .multi-select-dropdown__clear-button {
   width: 100%;
   padding: 10px 12px;
   border: none;
-  border-radius: 0;
+  border-radius: 0 0 8px 8px;
   background-color: transparent;
   cursor: pointer;
   font-size: 14px;
+  color: var(--color-text-medium);
+  transition: all 0.2s ease;
 
   &:hover {
-    background-color: #f5f5f5;
+    background-color: var(--color-background-medium);
+    color: var(--color-text-dark);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--focus-color-primary);
   }
 }

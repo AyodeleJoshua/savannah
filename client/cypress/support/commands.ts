@@ -9,9 +9,15 @@ Cypress.Commands.add('login', (username = 'admin', password = 'password') => {
 });
 
 Cypress.Commands.add('logout', () => {
-  // Clear localStorage to simulate logout
   cy.clearLocalStorage();
   cy.clearCookies();
+  
+  cy.get('body').then(($body) => {
+    if ($body.find('[data-testid="logout-button"]').length > 0) {
+      cy.get('[data-testid="logout-button"]').click();
+      cy.url().should('include', '/login');
+    }
+  });
 });
 
 Cypress.Commands.add('waitForPageLoad', () => {

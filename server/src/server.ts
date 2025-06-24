@@ -21,7 +21,14 @@ interface DB {
 
 // Create server
 export const server = jsonServer.create();
-const middlewares = jsonServer.defaults();
+
+// Add silent mode configuration
+const SILENT_MODE = process.env.SILENT_MODE === 'true';
+
+// Configure middlewares with silent logging when SILENT_MODE is enabled
+const middlewares = jsonServer.defaults({
+  logger: !SILENT_MODE, // Disable logger when in silent mode
+});
 
 // Initialize database
 let db: DB = {
@@ -29,14 +36,27 @@ let db: DB = {
   archivedRecommendations: [],
 };
 
+// Create a silent logger function
+const silentLog = (...args: any[]) => {
+  if (!SILENT_MODE) {
+    console.log(...args);
+  }
+};
+
+const silentError = (...args: any[]) => {
+  if (!SILENT_MODE) {
+    console.error(...args);
+  }
+};
+
 // Reset database helper for testing
 export const resetDatabase = () => {
-  console.log('Resetting database...');
+  silentLog('Resetting database...');
   db = {
     recommendations: JSON.parse(JSON.stringify(initialRecommendations)),
     archivedRecommendations: [],
   };
-  console.log('Database reset complete. Active recommendations:', db.recommendations.length);
+  silentLog('Database reset complete. Active recommendations:', db.recommendations.length);
 };
 
 // Initialize database with default data
@@ -147,7 +167,7 @@ const paginateResults = (
 // Get recommendations with cursor-based pagination, search, and filtering
 server.get('/recommendations', (req: Request, res: Response) => {
   try {
-    console.log('GET /recommendations - Current active recommendations:', db.recommendations.length);
+    silentLog('GET /recommendations - Current active recommendations:', db.recommendations.length);
     const cursor = req.query.cursor as string | undefined;
     const limit = parseInt(req.query.limit as string) || DEFAULT_LIMIT;
     const search = req.query.search as string | undefined;
@@ -155,11 +175,11 @@ server.get('/recommendations', (req: Request, res: Response) => {
 
     // Filter recommendations
     const filtered = filterRecommendations(db.recommendations, search, tags);
-    console.log('Filtered recommendations:', filtered.length);
+    silentLog('Filtered recommendations:', filtered.length);
 
     // Paginate filtered results
     const result = paginateResults(filtered, cursor, limit);
-    console.log('Paginated results:', result.data.length);
+    silentLog('Paginated results:', result.data.length);
 
     // Add available tags to the response
     const availableTags = {
@@ -174,7 +194,7 @@ server.get('/recommendations', (req: Request, res: Response) => {
       availableTags,
     });
   } catch (error) {
-    console.error('Error in GET /recommendations:', error);
+    silentError('Error in GET /recommendations:', error);
     res.status(500).json({ error: 'Failed to fetch recommendations' });
   }
 });
@@ -182,7 +202,7 @@ server.get('/recommendations', (req: Request, res: Response) => {
 // Get archived recommendations with cursor-based pagination, search, and filtering
 server.get('/recommendations/archive', (req: Request, res: Response) => {
   try {
-    console.log('GET /recommendations/archive - Current archived recommendations:', db.archivedRecommendations.length);
+    silentLog('GET /recommendations/archive - Current archived recommendations:', db.archivedRecommendations.length);
     const cursor = req.query.cursor as string | undefined;
     const limit = parseInt(req.query.limit as string) || DEFAULT_LIMIT;
     const search = req.query.search as string | undefined;
@@ -190,15 +210,15 @@ server.get('/recommendations/archive', (req: Request, res: Response) => {
 
     // Filter recommendations
     const filtered = filterRecommendations(db.archivedRecommendations, search, tags);
-    console.log('Filtered archived recommendations:', filtered.length);
+    silentLog('Filtered archived recommendations:', filtered.length);
 
     // Paginate filtered results
     const result = paginateResults(filtered, cursor, limit);
-    console.log('Paginated archived results:', result.data.length);
+    silentLog('Paginated archived results:', result.data.length);
 
     res.json(result);
   } catch (error) {
-    console.error('Error in GET /recommendations/archive:', error);
+    silentError('Error in GET /recommendations/archive:', error);
     res.status(500).json({ error: 'Failed to fetch archived recommendations' });
   }
 });
@@ -207,13 +227,13 @@ server.get('/recommendations/archive', (req: Request, res: Response) => {
 server.post('/recommendations/:id/archive', (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    console.log('POST /recommendations/:id/archive - Archiving recommendation:', id);
-    console.log('Before archive - Active:', db.recommendations.length, 'Archived:', db.archivedRecommendations.length);
+    silentLog('POST /recommendations/:id/archive - Archiving recommendation:', id);
+    silentLog('Before archive - Active:', db.recommendations.length, 'Archived:', db.archivedRecommendations.length);
 
     const index = db.recommendations.findIndex((r) => r.recommendationId === id);
 
     if (index === -1) {
-      console.log('Recommendation not found for archiving:', id);
+      silentLog('Recommendation not found for archiving:', id);
       return res.status(404).json({ error: 'Recommendation not found' });
     }
 
@@ -221,10 +241,10 @@ server.post('/recommendations/:id/archive', (req: Request, res: Response) => {
     db.recommendations = db.recommendations.filter((r) => r.recommendationId !== id);
     db.archivedRecommendations = [...db.archivedRecommendations, recommendation];
 
-    console.log('After archive - Active:', db.recommendations.length, 'Archived:', db.archivedRecommendations.length);
+    silentLog('After archive - Active:', db.recommendations.length, 'Archived:', db.archivedRecommendations.length);
     res.json({ success: true });
   } catch (error) {
-    console.error('Error in POST /recommendations/:id/archive:', error);
+    silentError('Error in POST /recommendations/:id/archive:', error);
     res.status(500).json({ error: 'Failed to archive recommendation' });
   }
 });
@@ -233,8 +253,8 @@ server.post('/recommendations/:id/archive', (req: Request, res: Response) => {
 server.post('/recommendations/:id/unarchive', (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    console.log('POST /recommendations/:id/unarchive - Unarchiving recommendation:', id);
-    console.log(
+    silentLog('POST /recommendations/:id/unarchive - Unarchiving recommendation:', id);
+    silentLog(
       'Before unarchive - Active:',
       db.recommendations.length,
       'Archived:',
@@ -244,7 +264,7 @@ server.post('/recommendations/:id/unarchive', (req: Request, res: Response) => {
     const index = db.archivedRecommendations.findIndex((r) => r.recommendationId === id);
 
     if (index === -1) {
-      console.log('Archived recommendation not found for unarchiving:', id);
+      silentLog('Archived recommendation not found for unarchiving:', id);
       return res.status(404).json({ error: 'Archived recommendation not found' });
     }
 
@@ -252,11 +272,11 @@ server.post('/recommendations/:id/unarchive', (req: Request, res: Response) => {
     db.archivedRecommendations = db.archivedRecommendations.filter((r) => r.recommendationId !== id);
     db.recommendations = [...db.recommendations, recommendation];
 
-    console.log('After unarchive - Active:', db.recommendations.length, 'Archived:', db.archivedRecommendations.length);
-    console.log('Unarchived recommendation:', recommendation);
+    silentLog('After unarchive - Active:', db.recommendations.length, 'Archived:', db.archivedRecommendations.length);
+    silentLog('Unarchived recommendation:', recommendation);
     res.json({ success: true });
   } catch (error) {
-    console.error('Error in POST /recommendations/:id/unarchive:', error);
+    silentError('Error in POST /recommendations/:id/unarchive:', error);
     res.status(500).json({ error: 'Failed to unarchive recommendation' });
   }
 });
@@ -318,6 +338,6 @@ if (process.env.USE_AUTH === 'true') {
 if (process.env.NODE_ENV !== 'test') {
   const PORT = process.env.PORT || 3001;
   server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    silentLog(`Server is running on port ${PORT}`);
   });
 }

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./styles.module.scss";
-import { useAuth } from "../../../contexts/AuthContext";
+import { removeAuthTokenCookie } from "../../../utils/browserStorage";
 
 interface SidebarItemProps {
   name: string;
@@ -13,15 +13,17 @@ interface SidebarItemProps {
 export default function SidebarItem(props: SidebarItemProps) {
   const location = useLocation();
   const isActive = location.pathname.includes(props.link);
-  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   if (props.isLogout) {
     return (
       <button
         className={`${styles["sidebar-link"]} w-full bg-transparent border-none`}
         onClick={() => {
-          logout();
+          removeAuthTokenCookie();
+          navigate("/login", { replace: true });
         }}
+        data-testid="logout-button"
       >
         {props.icon}
         {props.name}

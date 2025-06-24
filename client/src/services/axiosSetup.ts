@@ -1,24 +1,27 @@
 import axios from "axios";
 import {
-  getItemFromStorage,
-  removeItemFromStorage,
+  getAuthTokenFromCookie,
+  removeAuthTokenCookie,
 } from "../utils/browserStorage";
-import { constants } from "../utils/constants";
 import { appConfig } from "../config/appConfig";
 
-// Create axios instance with default config
 export const apiClient = axios.create({
   baseURL: appConfig.baseUrl || "http://localhost:3001",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "X-XSS-Protection": "1; mode=block",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
   },
+  withCredentials: true,
 });
 
-// Request interceptor to add auth token
 apiClient.interceptors.request.use(
   (config) => {
-    const token = getItemFromStorage(constants.AUTH_TOKEN);
+    const token = getAuthTokenFromCookie();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,13 +32,11 @@ apiClient.interceptors.request.use(
   },
 );
 
-// Response interceptor for error handling
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized access
-      removeItemFromStorage(constants.AUTH_TOKEN);
+      removeAuthTokenCookie();
       window.location.href = "/login";
     }
     return Promise.reject(error);

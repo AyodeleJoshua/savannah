@@ -1,3 +1,5 @@
+@use "../styles/colors" as *;
+
 .sidebar {
   &__container {
     min-height: 100%;
@@ -7,7 +9,7 @@
       position: absolute;
       left: -5000px;
       top: 0;
-      background-color: rgba(38, 38, 38, 0.834);
+      background-color: var(--dark-overlay);
       transition: right 0.3s ease-in-out;
       z-index: 50;
     }
@@ -21,9 +23,11 @@
   }
 
   &__content {
-    background-color: white;
+    background-color: var(--color-background-medium);
     min-height: 100%;
     padding: 1.2rem;
+    border-right: 1px solid var(--color-border-light);
+    box-shadow: 0 2px 8px var(--shadow-color-light);
 
     &-logo {
       width: 15rem;
@@ -34,6 +38,7 @@
       padding: 2rem;
       min-height: 100vh;
       width: 65%;
+      background-color: var(--color-background-dark);
 
       &-logo {
         width: 30rem;
@@ -52,7 +57,7 @@
   height: 8rem;
   margin-bottom: 2rem;
   position: relative;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-light);
   @media (min-width: 769px) {
     display: none;
   }
@@ -65,7 +70,13 @@
     background-color: var(--color-primary);
     padding: 0.8rem;
     border-radius: 0.5rem;
-    color: var(--color-bg-primary);
+    color: var(--color-background-dark);
     z-index: 999;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-primary-hover);
+      transform: scale(1.05);
+    }
   }
 }

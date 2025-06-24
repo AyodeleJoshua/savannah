@@ -155,24 +155,67 @@ npm run test:client:watch
 npm run test:watch --workspace=server
 ```
 
+> **💡 Sidenote**: You can run all server-side tests (both unit tests and e2e tests) at once by running `npm run test:all` from the root directory.
+
 ### End-to-End Testing with Cypress
 
 The application includes comprehensive end-to-end tests using Cypress that cover:
 
-- **Authentication Flow**: Login, logout, and session management
-- **Dashboard Navigation**: Page routing and access control
-- **Archive Functionality**: Archiving and unarchiving recommendations
-- **Accessibility**: ARIA labels, keyboard navigation, and focus management
-- **Modal Interactions**: Opening, closing, and content verification
-- **Error Handling**: Network errors and edge cases
+#### 🔐 Authentication & Session Management
+- **Login Form Display**: Verifies all login form elements are visible
+- **Form Validation**: Tests required field validation for empty submissions
+- **Invalid Credentials**: Displays error messages for incorrect login attempts
+- **Successful Login**: Validates successful authentication and redirect to recommendations
+- **Loading States**: Shows loading indicator during authentication process
+- **Auto-redirect**: Redirects authenticated users away from login page
+- **Keyboard Navigation**: Supports form submission with Enter key
+- **Logout Functionality**: Properly logs out users and clears authentication state
+- **Session Protection**: Prevents access to protected routes after logout
+
+#### 📊 Dashboard & Navigation
+- **Dashboard Access**: Verifies dashboard content is displayed correctly
+- **Route Protection**: Ensures dashboard is only accessible when authenticated
+- **Logout Flow**: Tests complete logout process and redirect to login
+- **Session Persistence**: Validates authentication state management
+
+#### 📋 Recommendations Management
+- **Page Rendering**: Verifies recommendations page loads with all UI elements
+- **Data Loading**: Tests that recommendation cards are properly displayed
+- **Modal Interactions**: 
+  - Opens recommendation details modal on card click
+  - Closes modal via close button
+  - Closes modal by clicking outside overlay
+- **Search Functionality**: Tests search input and empty state display
+- **Navigation**: Validates archive page navigation
+
+#### 📁 Archive Functionality
+- **Archive Page Display**: Verifies archive page loads with proper breadcrumbs
+- **Breadcrumb Navigation**: Tests breadcrumb structure and navigation
+- **Archived Data**: Confirms archived recommendations are displayed
+- **Modal Access**: Tests modal functionality for archived items
+- **Empty States**: Validates empty state for no archived recommendations
+- **Navigation Flow**: Tests breadcrumb navigation back to main recommendations
+
+#### ♿ Accessibility & UX
+- **ARIA Labels**: Verifies proper accessibility attributes on interactive elements
+- **Keyboard Navigation**: Tests full keyboard accessibility across the application
+- **Focus Management**: Validates proper focus handling, especially in modals
+- **Color Contrast**: Ensures visual accessibility standards are met
+- **Screen Reader Support**: Tests ARIA roles and labels for assistive technologies
+
+#### 🔄 User Interactions
+- **Form Submissions**: Tests both button clicks and keyboard submissions
+- **Modal Management**: Comprehensive modal open/close testing
+- **State Transitions**: Validates UI state changes during loading and data updates
+- **Error Handling**: Tests error states and user feedback
+- **Responsive Behavior**: Ensures proper functionality across different screen sizes
 
 #### Running E2E Tests
-To run the end-to-end test, you need to start the server on a seperate terminal.
-- In the root folder of the project, run ``cd server``
-- ``npm install``
-- ``npm run dev``
-- On a seperate terminal, go to the root folder of the project and run ``npm run test:e2e``
-
+To run the end-to-end tests, you need to start the server on a separate terminal:
+- In the root folder of the project, run `cd server`
+- `npm install`
+- `npm run dev`
+- On a separate terminal, go to the root folder of the project and run `npm run test:e2e`
 
 ## 🌐 Application URLs
 
@@ -256,3 +299,12 @@ This project is private and confidential.
 - [Vite Documentation](https://vitejs.dev/)
 - [Tailwind CSS Documentation](https://tailwindcss.com/)
 - [TanStack Query Documentation](https://tanstack.com/query)
+
+## 🔐 Demo Credentials
+
+For testing the application, use these credentials:
+
+**Username:** `admin`  
+**Password:** `password`
+
+These credentials are used in the end-to-end tests and provide access to all application features.

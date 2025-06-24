@@ -4,11 +4,12 @@
 import './commands';
 
 // Add global error handling
-Cypress.on('uncaught:exception', (err, runnable) => {
+Cypress.on('uncaught:exception', () => {
   return false;
 });
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
     interface Chainable {
       login(username?: string, password?: string): Chainable<void>;

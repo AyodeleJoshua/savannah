@@ -1,7 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./styles.module.scss";
 import { LuFilter } from "react-icons/lu";
-import { HiMagnifyingGlass } from "react-icons/hi2";
+import MultiSelectDropdownHeader from "./MultiSelectDropdownHeader";
+import MultiSelectDropdownOption from "./MultiSelectDropdownOption";
+import MultiSelectDropdownFooter from "./MultiSelectDropdownFooter";
 
 interface IOption {
   id: string;
@@ -78,7 +80,7 @@ export default function MultiSelectDropdown({
       role="button"
       tabIndex={0}
       onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           handleToggleDropdown();
         }
@@ -99,47 +101,26 @@ export default function MultiSelectDropdown({
 
       {isOpen && (
         <div className={styles["multi-select-dropdown__panel"]}>
-          <div className={styles["multi-select-dropdown__search"]}>
-            <span className={styles["multi-select-dropdown__search-icon"]}>
-              <HiMagnifyingGlass />
-            </span>
-            <input
-              type="text"
-              placeholder={placeholder}
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className={styles["multi-select-dropdown__search-input"]}
-            />
-          </div>
-          <div className={styles["multi-select-dropdown__options"]}>
-            {filteredOptions.map((option) => (
-              <label
-                key={option.id}
-                className={styles["multi-select-dropdown__option"]}
-              >
-                <input
-                  type="checkbox"
-                  value={option.id}
-                  checked={selectedOptions.includes(option.id)}
-                  onChange={() => handleOptionChange(option.id)}
-                  className={styles["multi-select-dropdown__option-checkbox"]}
+          <MultiSelectDropdownHeader
+            placeholder={placeholder}
+            searchTerm={searchTerm}
+            onSearchChange={handleSearchChange}
+          />
+
+          <div className={styles["multi-select-dropdown__options-container"]}>
+            <div className={styles["multi-select-dropdown__options"]}>
+              {filteredOptions.map((option) => (
+                <MultiSelectDropdownOption
+                  key={option.id}
+                  option={option}
+                  isSelected={selectedOptions.includes(option.id)}
+                  onOptionChange={handleOptionChange}
                 />
-                <span className={styles["multi-select-dropdown__option-label"]}>
-                  {option.label}
-                </span>
-                <span className={styles["multi-select-dropdown__option-count"]}>
-                  {option.count}
-                </span>
-              </label>
-            ))}
+              ))}
+            </div>
           </div>
-          <hr />
-          <button
-            className={styles["multi-select-dropdown__clear-button"]}
-            onClick={handleClearFilters}
-          >
-            Clear Filters
-          </button>
+
+          <MultiSelectDropdownFooter onClearFilters={handleClearFilters} />
         </div>
       )}
     </div>

@@ -28,8 +28,11 @@ export interface Recommendation {
   class: number;
 }
 
-interface AvailableTags {
+export interface AvailableTags {
   providers: string[];
+  frameworks: string[];
+  classes: string[];
+  reasons: string[];
 }
 
 export interface RecommendationResponse {

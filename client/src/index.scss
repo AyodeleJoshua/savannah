@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "./styles/colors" as *;
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -51,28 +52,28 @@ $themes: (
     color-text-active: #3d8d9b,
   ),
   dark: (
-    color-bg-primary: #0f172a,
-    color-bg-secondary: #1e293b,
-    color-bg-tertiary: #334155,
-    color-text-primary: #f8fafc,
-    color-text-secondary: #cbd5e1,
-    color-text-tertiary: #94a3b8,
-    color-border: #334155,
-    color-border-hover: #475569,
-    color-accent: #60a5fa,
-    color-accent-hover: #3b82f6,
-    color-success: #34d399,
-    color-error: #f87171,
-    color-warning: #fbbf24,
-    shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3),
-    shadow-md: (0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3)),
-    shadow-lg: (0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3)),
-    color-primary: #22d3ee,
-    color-primary-hover: #06b6d4,
-    color-primary-light: #67e8f9,
-    color-primary-dark: #0891b2,
-    color-bg-active: #ddf8fd,
-    color-text-active: #3d8d9b,
+    color-bg-primary: #1a1a1a,
+    color-bg-secondary: #2d2d2d,
+    color-bg-tertiary: #404040,
+    color-text-primary: #e5e5e5,
+    color-text-secondary: #b3b3b3,
+    color-text-tertiary: #8c8c8c,
+    color-border: #404040,
+    color-border-hover: #525252,
+    color-accent: #7dd3fc,
+    color-accent-hover: #38bdf8,
+    color-success: #4ade80,
+    color-error: #fca5a5,
+    color-warning: #fcd34d,
+    shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2),
+    shadow-md: (0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2)),
+    shadow-lg: (0 10px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -4px rgb(0 0 0 / 0.2)),
+    color-primary: #67e8f9,
+    color-primary-hover: #22d3ee,
+    color-primary-light: #a5f3fc,
+    color-primary-dark: #06b6d4,
+    color-bg-active: #1e3a8a,
+    color-text-active: #93c5fd,
   )
 );
 

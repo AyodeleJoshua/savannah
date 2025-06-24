@@ -1,3 +1,5 @@
+@use "../../../../styles/colors" as *;
+
 .score {
   &__value-score {
     display: flex;
@@ -7,13 +9,13 @@
   &__value-box {
     width: 10px;
     height: 10px;
-    background: #00b3c6;
+    background: $color-primary-light;
     border-radius: 2px;
     display: inline-block;
   }
 
   &__value-box--inactive {
     @extend .score__value-box;
-    background: #c9c9c9;
+    background: $color-archived-light;
   }
 }

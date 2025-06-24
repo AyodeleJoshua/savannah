@@ -1,15 +1,21 @@
+@use "../../../../styles/colors" as *;
+
 .card {
   display: flex;
   align-items: stretch;
-  background: #fff;
+  background: var(--color-white);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  // box-shadow: 0 2px 8px var(--shadow-color-light);
   overflow: hidden;
   max-width: 1400px;
   cursor: pointer;
+  border: 1px solid var(--color-border-light);
+  transition: all 0.2s ease-in-out;
+  
   &:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 25px var(--shadow-color-medium);
     transform: translateY(-2px);
+    border-color: var(--color-border-medium);
   }
 
   &__icon-section {
@@ -17,13 +23,14 @@
   }
 
   &__icon-section--archived {
-    background: #939393 !important;
+    background: var(--color-archived) !important;
   }
 
   &__content-section {
     flex: 1 1 auto;
     padding: 1.5rem;
     display: flex;
+    background: var(--color-white);
   }
 
   &__header-row {
@@ -35,7 +42,7 @@
 
   &__title {
     font-weight: 700;
-    color: #222;
+    color: var(--color-text-dark);
     font-size: 1.4rem;
     @apply line-clamp-1;
   }
@@ -45,7 +52,7 @@
     align-items: center;
     gap: 8px;
     font-size: 1.2rem;
-    color: #888;
+    color: var(--color-text-light);
     margin-left: 16px;
     margin-top: 4px;
   }
@@ -53,38 +60,42 @@
   &__description {
     margin: 0.6rem 0;
     font-size: 1.2rem;
+    color: var(--color-text-medium);
     @apply line-clamp-2;
   }
 
-  &__tags-row {
+  &__frameworks-row {
     display: flex;
     overflow: hidden;
     gap: 6px;
   }
 
-  &__tag {
-    background: #f2f6fa;
+  &__framework-compliance-badge {
+    background: var(--color-secondary);
+    color: var(--color-text-dark);
     text-wrap: nowrap;
     padding: 4px 12px;
     border-radius: 8px;
     font-weight: 500;
     font-size: 0.85rem;
+    border: 1px solid var(--color-border-light);
   }
 
   &__impact-section {
-    background: #f2f6fa;
+    background: var(--color-secondary);
     width: 60%;
     display: none;
     padding: 1rem;
     border-radius: 0.2rem;
     max-width: 300px;
+    border-left: 1px solid var(--color-border-light);
   }
 
   &__violations {
     white-space: nowrap;
     font-size: 1rem;
     margin-bottom: 16px;
-    color: #666;
+    color: var(--color-text-medium);
     text-align: center;
     width: 100%;
   }
@@ -93,7 +104,7 @@
     border-radius: 16px;
     &__icon-section {
       display: flex;
-      background: #0099b0;
+      background: var(--color-primary);
       align-items: center;
       justify-content: center;
       width: 35%;
@@ -102,7 +113,7 @@
 
     &__icon {
       font-size: 40px;
-      color: #fff;
+      color: var(--color-white);
       display: block;
     }
 
@@ -128,14 +139,14 @@
       @apply line-clamp-3;
     }
 
-    &__tag {
+    &__framework-compliance-badge {
       font-size: 0.75rem;
     }
 
     &__impact-title {
       font-size: 1.2rem;
       font-weight: 700;
-      color: #222;
+      color: var(--color-text-dark);
       text-align: center;
       width: 100%;
       white-space: nowrap;
@@ -151,7 +162,7 @@
       font-size: 1.5rem;
     }
     
-    &__tag {
+    &__framework-compliance-badge {
       font-size: 1rem;
     }
 
@@ -162,5 +173,35 @@
     &__violations {
       font-size: 1.3rem;
     }
+  }
+}
+
+// Dark mode specific enhancements
+:root[data-theme="dark"] .card {
+  background: var(--color-background-medium);
+  border-color: var(--color-border-medium);
+  
+  &:hover {
+    background: var(--color-background-dark);
+    border-color: var(--color-border-dark);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .card__content-section {
+    background: var(--color-background-medium);
+  }
+
+  .card__framework-compliance-badge {
+    background: var(--color-background-dark);
+    border-color: var(--color-border-medium);
+    
+    &:hover {
+      background: var(--color-background-light);
+    }
+  }
+
+  .card__impact-section {
+    background: var(--color-background-dark);
+    border-left-color: var(--color-border-medium);
   }
 }

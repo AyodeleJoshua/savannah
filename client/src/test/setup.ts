@@ -119,6 +119,8 @@ vi.mock('react-icons/vsc', () => ({
 
 vi.mock('react-icons/fi', () => ({
   FiArchive: () => 'Archive',
+  FiBarChart: () => 'BarChart',
+  FiBookOpen: () => 'BookOpen',
 }));
 
 vi.mock('*.png', () => ({

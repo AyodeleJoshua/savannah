@@ -1,11 +1,11 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { getItemFromStorage } from "../utils/browserStorage";
+import { isAuthenticated } from "../utils/browserStorage";
 import { useEffect } from "react";
 import Sidebar from "../layout/Sidebar";
-import { constants } from "../utils/constants";
+import { FloatingThemeToggle } from "../components/sharedComponents/FloatingThemeToggle";
 
 export default function ProtectedRoutes() {
-  const authToken = getItemFromStorage(constants.AUTH_TOKEN);
+  const authToken = isAuthenticated();
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -19,8 +19,9 @@ export default function ProtectedRoutes() {
   return (
     <div className="lg:flex lg:h-screen lg:overflow-y-clip 3xl:max-w-[1440px] 3xl:mx-auto">
       <Sidebar />
-      <main className="px-[2rem] xl:px-[4rem] overflow-y-auto grow">
+      <main className="px-[2rem] xl:px-[4rem] overflow-y-auto grow relative">
         <Outlet />
+        <FloatingThemeToggle />
       </main>
     </div>
   );

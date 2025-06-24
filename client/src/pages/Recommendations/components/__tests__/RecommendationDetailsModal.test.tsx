@@ -145,7 +145,7 @@ describe('RecommendationDetailsModal', () => {
   it('renders all sections correctly', () => {
     render(<RecommendationDetailsModal {...defaultProps} />);
     
-    expect(screen.getByText('Description')).toBeInTheDocument();
+    expect(screen.getByTestId('modal-description')).toBeInTheDocument();
     expect(screen.getByText('Resources enforced by policy')).toBeInTheDocument();
     expect(screen.getByText('Reasons')).toBeInTheDocument();
     expect(screen.getByText('Impact Assessment')).toBeInTheDocument();

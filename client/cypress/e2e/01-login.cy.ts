@@ -13,7 +13,6 @@ describe("Login Page", () => {
     cy.get('[data-testid="username-input"]').should("be.visible");
     cy.get('[data-testid="password-input"]').should("be.visible");
     cy.get('[data-testid="login-button"]').should("be.visible");
-    cy.get('[data-testid="demo-credentials"]').should("be.visible");
   });
 
   it("should show validation errors for empty fields", () => {
@@ -36,7 +35,6 @@ describe("Login Page", () => {
     cy.get('[data-testid="password-input"]').type("password");
     cy.get('[data-testid="login-button"]').click();
 
-    // Should redirect to recommendations page
     cy.url().should("include", "/recommendations");
     cy.get('[data-testid="recommendations-page"]').should("be.visible");
   });
@@ -46,25 +44,22 @@ describe("Login Page", () => {
     cy.get('[data-testid="password-input"]').type("password");
     cy.get('[data-testid="login-button"]').click();
 
-    // Button should show loading state
     cy.get('[data-testid="login-button"]').should("contain", "Signing in...");
   });
 
   it("should redirect to recommendations if already authenticated", () => {
-    // Login first
+    // when already authenticated and manually visit login page should redirect to recommendations page
     cy.login();
 
-    // Try to visit login page again
     cy.visit("/login");
 
-    // Should redirect to recommendations
     cy.url().should("include", "/recommendations");
   });
 
   it("should handle form submission with Enter key", () => {
     cy.get('[data-testid="username-input"]').type("admin");
     cy.get('[data-testid="password-input"]').type("password{enter}");
-
+    // CHECK IF REDIRECT TO RECOMMENDATIONS PAGE WHEN SUCCESSFULLY LOGGED IN
     cy.url().should("include", "/recommendations");
   });
 });

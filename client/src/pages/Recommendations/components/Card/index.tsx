@@ -54,9 +54,10 @@ export default function Card({
           <p className={`${styles["card__description"]} line-clamp-3`}>
             {recommendation?.description}
           </p>
-          <div className={styles["card__tags-row"]}>
+          {/* FRAMEWORK COMPLIANCE BADGE */}
+          <div className={styles["card__frameworks-row"]}>
             {recommendation.frameworks?.map((framework) => (
-              <span className={styles["card__tag"]}>{framework.name}</span>
+              <span className={styles["card__framework-compliance-badge"]}>{framework.name}</span>
             ))}
           </div>
         </div>

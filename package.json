@@ -21,6 +21,7 @@
     "test:client:watch": "npm run test --workspace=client",
     "test:client:coverage": "npm run test:coverage --workspace=client",
     "test:e2e": "npm run test:e2e --workspace=client",
+    "test:all": "npm run test:client && npm run test:e2e:with-backend --workspace=client",
     "clean": "npm run clean --workspaces --if-present",
     "install:all": "npm install && npm install --workspace=client && npm install --workspace=server"
   },
@@ -41,7 +42,9 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
+    "formik": "^2.4.6",
     "react-hot-toast": "^2.5.2",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "yup": "^1.6.1"
   }
 }

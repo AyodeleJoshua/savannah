@@ -3,8 +3,7 @@ import { useAuth } from "./contexts/AuthContext";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import { lazy, Suspense, useEffect } from "react";
 import RecommendationsRoutes from "./routes/privateRoutes/RecommendationsRoutes";
-import { getItemFromStorage } from "./utils/browserStorage";
-import { constants } from "./utils/constants";
+import { isAuthenticated } from "./utils/browserStorage";
 import ToastDefault from "./utils/ToastDefault";
 
 const Login = lazy(() => import("./pages/Login"));
@@ -14,7 +13,7 @@ function App() {
   const { login } = useAuth();
 
   useEffect(() => {
-    const authToken = getItemFromStorage(constants.AUTH_TOKEN);
+    const authToken = isAuthenticated();
     if (authToken) {
       login();
     }

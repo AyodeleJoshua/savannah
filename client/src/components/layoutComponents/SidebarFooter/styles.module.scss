@@ -1,3 +1,5 @@
+@use "../../../styles/colors" as *;
+
 .sidebar-footer {
   &__container {
     display: flex;
@@ -5,7 +7,7 @@
     margin-top: 5rem;
   }
   &__icon {
-    background: #83e8f5;
+    background: $color-cyan-300;
     display: flex;
     justify-content: center;
     align-items: center;

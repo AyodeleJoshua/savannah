@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
 import { HiLockClosed, HiExclamationCircle } from "react-icons/hi2";
 import styles from "./styles.module.scss";
-import { Input } from "./components/Input";
-import { loginWithCredentials } from "./services";
-import {
-  getItemFromStorage,
-  setItemInStorage,
-} from "../../utils/browserStorage";
-import { constants } from "../../utils/constants";
+import Input from "../../components/sharedComponents/Input";
+import { isAuthenticated } from "../../utils/browserStorage";
+import { useLoginForm } from "./hooks/useLoginForm";
 
 interface ILocationState {
   referal?: {
@@ -18,41 +13,16 @@ interface ILocationState {
 }
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const locationState = location.state as ILocationState;
   const referal = locationState?.referal?.pathname || "/recommendations";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsSigningIn(true);
-
-    try {
-      const loginResponse = await loginWithCredentials(username, password);
-      login();
-      setItemInStorage(constants.AUTH_TOKEN, loginResponse.token);
-      navigate(referal, { replace: true });
-    } catch (error: unknown) {
-      if (error && typeof error === "object" && "response" in error) {
-        const apiError = error as { response: { data: { error: string } } };
-        setError(apiError.response.data.error);
-      } else {
-        setError("An unexpected error occurred");
-      }
-    } finally {
-      setIsSigningIn(false);
-    }
-  };
+  const formik = useLoginForm(referal);
 
   useEffect(() => {
-    const authToken = getItemFromStorage(constants.AUTH_TOKEN);
+    const authToken = isAuthenticated();
     if (authToken) {
       navigate("/recommendations");
     }
@@ -65,62 +35,87 @@ export default function Login() {
           <div className={styles["login-icon"]}>
             <HiLockClosed size={32} />
           </div>
-          <h2 className={styles["login-title"]} data-testid="login-title">Welcome back</h2>
+          <h2 className={styles["login-title"]} data-testid="login-title">
+            Welcome back
+          </h2>
           <p className={styles["login-subtitle"]} data-testid="login-subtitle">
             Sign in to your account to continue
           </p>
         </div>
 
         <div className={styles["login-form-container"]}>
-          <form onSubmit={handleSubmit} className={styles["login-form"]}>
+          <form className={styles["login-form"]} onSubmit={formik.handleSubmit}>
             <div className={styles["form-group"]}>
               <label htmlFor="username" className={styles["form-label"]}>
                 Username
               </label>
-              <div className={styles["input-wrapper"]}>
-                <Input
-                  id="username"
-                  name="username"
-                  type="text"
-                  required
-                  placeholder="Enter your username"
-                  value={username}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                  disabled={isSigningIn}
-                  data-testid="username-input"
-                />
-              </div>
+              <Input
+                id="username"
+                name="username"
+                type="text"
+                required
+                placeholder="Enter your username"
+                disabled={formik.isSubmitting}
+                data-testid="username-input"
+                value={formik.values.username}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={
+                  formik.touched.username && formik.errors.username
+                    ? styles["input-error"]
+                    : ""
+                }
+              />
+              {formik.touched.username && formik.errors.username && (
+                <div
+                  className={styles["error-message"]}
+                  data-testid="username-error"
+                >
+                  {formik.errors.username}
+                </div>
+              )}
             </div>
 
             <div className={styles["form-group"]}>
               <label htmlFor="password" className={styles["form-label"]}>
                 Password
               </label>
-              <div className={styles["input-wrapper"]}>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={isSigningIn}
-                  data-testid="password-input"
-                />
-              </div>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="Enter your password"
+                disabled={formik.isSubmitting}
+                data-testid="password-input"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={
+                  formik.touched.password && formik.errors.password
+                    ? styles["input-error"]
+                    : ""
+                }
+              />
+              {formik.touched.password && formik.errors.password && (
+                <div
+                  className={styles["error-message"]}
+                  data-testid="password-error"
+                >
+                  {formik.errors.password}
+                </div>
+              )}
             </div>
 
-            {error && (
-              <div className={styles["error-message"]} data-testid="error-message">
+            {formik.status && (
+              <div
+                className={styles["error-message"]}
+                data-testid="error-message"
+              >
                 <div className={styles["error-content"]}>
-                  <div className={styles["error-icon"]}>
-                    <HiExclamationCircle size={20} />
-                  </div>
+                  <HiExclamationCircle size={20} />
                   <div className={styles["error-text"]}>
-                    <p>{error}</p>
+                    <p>{formik.status}</p>
                   </div>
                 </div>
               </div>
@@ -129,20 +124,12 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                disabled={isSigningIn}
+                disabled={formik.isSubmitting}
                 className={styles["submit-button"]}
                 data-testid="login-button"
               >
-                {isSigningIn ? "Signing in..." : "Sign in"}
+                {formik.isSubmitting ? "Signing in..." : "Sign in"}
               </button>
-            </div>
-
-            <div className={styles["demo-credentials"]} data-testid="demo-credentials">
-              <p className={styles["demo-title"]}>Demo credentials:</p>
-              <div className={styles["demo-content"]}>
-                <p>Username: admin</p>
-                <p>Password: password</p>
-              </div>
             </div>
           </form>
         </div>

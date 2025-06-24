@@ -47,7 +47,7 @@ describe("Recommendations Page", () => {
     );
   });
 
-  it("should navigate to archive page", () => {
+  it("should navigate to archive page when archive link is clicked/toggled", () => {
     cy.get('[data-testid="archive-link"]').click();
     cy.url().should("include", "/recommendations/archived");
   });

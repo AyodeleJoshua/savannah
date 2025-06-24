@@ -1,7 +1,7 @@
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import Input from "../../../components/sharedComponents/Input";
-import MultiSelectDropdown from "../../../components/sharedComponents/MultiSelectDropdown";
-import Pagination from "../../../components/sharedComponents/Pagination";
+import Input from "../../../../components/sharedComponents/Input";
+import MultiSelectDropdown from "../../../../components/sharedComponents/MultiSelectDropdown";
+import Pagination from "../../../../components/sharedComponents/Pagination";
 
 interface InputFilterWithPaginationProps {
   multiSelectOptions: { label: string; count: number; id: string }[];
@@ -31,7 +31,7 @@ export default function InputFilterWithPagination(
         />
         <MultiSelectDropdown
           options={multiSelectOptions}
-          placeholder="Cloud Provider"
+          placeholder="Cloud Provider, Framework, Class, Reason"
           onSelectionChange={(selectedItems) =>
             onMultiselectDropdownChange(selectedItems)
           }

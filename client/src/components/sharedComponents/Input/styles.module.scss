@@ -4,7 +4,17 @@
   padding: 8px 12px;
   display: inline-block;
   min-width: 30rem;
-  background: white;
+  background: var(--color-bg-secondary);
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-border-hover);
+  }
+
+  &:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent-hover);
+  }
 
   &__field-container {
     display: flex;
@@ -26,9 +36,14 @@
     flex-grow: 1;
     font-size: 16px;
     color: var(--color-text-primary);
+    background: transparent;
 
     &::placeholder {
       color: var(--color-text-tertiary);
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 }
